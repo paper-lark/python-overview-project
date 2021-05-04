@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Weather widget views."""
+"""Notes widget views."""
 import tkinter as tk
 from dataclasses import dataclass
 
@@ -8,14 +8,14 @@ from views.shared.view import View
 
 
 @dataclass
-class WeatherViewProps:
-    """Props for weather view."""
+class NotesViewProps:
+    """Props for notes view."""
 
     is_loading: bool
 
 
-class WeatherView(View[WeatherViewProps]):
-    """View for weather screen."""
+class NotesView(View[NotesViewProps]):
+    """View for notes screen."""
 
     def _update(self):
         pass
@@ -23,5 +23,5 @@ class WeatherView(View[WeatherViewProps]):
     def _render_widgets(self):
         self.__text = Flexible(tk.Label)(
             self,
-            text="WeatherView",
+            text="NotesView",
         )

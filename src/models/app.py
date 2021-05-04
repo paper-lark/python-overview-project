@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
-"""App models."""
+"""App model."""
 from dataclasses import dataclass
+from enum import Enum
 from typing import List
 
-from models.app.widget_kind import WidgetKind
+
+class WidgetKind(Enum):
+    """Supported widget kinds."""
+
+    WEATHER = 1
+    CALENDAR = 2
+    NOTES = 3
 
 
 @dataclass

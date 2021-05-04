@@ -4,9 +4,9 @@ import tkinter as tk
 from dataclasses import dataclass
 from typing import Callable, List
 
-from models.app.widget_kind import WidgetKind
+from models.app import WidgetKind
 from views.app.app_bar_button import AppBarButtonView, AppBarButtonViewProps
-from views.shared.flexible.flexible import Flexible
+from views.shared.view import View
 
 
 @dataclass
@@ -18,7 +18,7 @@ class AppBarViewProps:
     on_activate_tab: Callable[[int], None]
 
 
-class AppBarView(Flexible(tk.Frame)):
+class AppBarView(View[AppBarViewProps]):
     """View for application bar."""
 
     __tab_names = {
@@ -27,29 +27,29 @@ class AppBarView(Flexible(tk.Frame)):
         WidgetKind.CALENDAR: "Calendar",
     }  # TODO: интернационализация
 
-    def __init__(self, parent, props: AppBarViewProps):
-        """Construct view."""
-        super().__init__(parent)
-        self.__props = props
-        self.__render()
+    def _update(self):
+        for btn in self.__buttons:
+            btn.destroy()  # TODO: add convenience method for removing children
 
-    def __render(self):
-        self.grid(ipadx=4, ipady=4)
         self.__buttons = [
-            self.__render_button(i, t) for i, t in enumerate(self.__props.tabs)
+            self.__render_button(i, t) for i, t in enumerate(self.props.tabs)
         ]
 
-    def __render_button(self, tab_index, tab_kind):
-        btn = AppBarButtonView(
-            self,
-            props=AppBarButtonViewProps(
-                text=self.__get_tab_name(tab_kind),
-                is_active=self.__props.active_tab_index == tab_index,
-                on_click=lambda: self.__props.on_activate_tab(tab_index),
-            ),
-        )
+    def _render_widgets(self):
+        self.grid(ipadx=4, ipady=4)
+        self.__buttons: List[tk.Button] = []
+
+    def __render_button(self, tab_index, tab_kind: WidgetKind):
         self.columnconfigure(tab_index, weight=1, pad=0)
+        btn = AppBarButtonView(self)
         btn.grid(row=0, column=tab_index, ipadx=0, ipady=0, padx=0, pady=0)
+        btn.update_props(
+            AppBarButtonViewProps(
+                text=self.__get_tab_name(tab_kind),
+                is_active=self.props.active_tab_index == tab_index,
+                on_click=lambda: self.props.on_activate_tab(tab_index),
+            )
+        )  # FIXME: объединить конфигурацию кнопок
         return btn
 
     @classmethod

@@ -4,7 +4,8 @@ import tkinter as tk
 from dataclasses import dataclass
 from typing import Callable
 
-from views.shared.flexible.flexible import Flexible
+from views.shared.flexible import Flexible
+from views.shared.view import View
 
 
 @dataclass
@@ -16,21 +17,19 @@ class AppBarButtonViewProps:
     on_click: Callable[[], None]
 
 
-class AppBarButtonView(Flexible(tk.Frame)):
+class AppBarButtonView(View[AppBarButtonViewProps]):
     """View for application bar button."""
 
-    def __init__(self, parent, props: AppBarButtonViewProps):
-        """Construct view."""
-        super().__init__(master=parent)
-        self.__props = props
-        self.__render()
+    def _update(self):
+        self.__btn.configure(
+            state=tk.ACTIVE if self.props.is_active else tk.NORMAL,
+            text=self.props.text,
+            command=self.props.on_click,
+        )
 
-    def __render(self):
+    def _render_widgets(self):
         self.__btn = Flexible(tk.Button)(
             master=self,
-            command=self.__props.on_click,
-            text=self.__props.text,
-            state=tk.ACTIVE if self.__props.is_active else tk.NORMAL,
             justify=tk.CENTER,
             relief=tk.FLAT,
             overrelief=tk.FLAT,

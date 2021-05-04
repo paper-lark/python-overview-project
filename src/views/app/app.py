@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """App views."""
-import tkinter as tk
 from dataclasses import dataclass
+from typing import Optional
 
 from views.app.app_bar import AppBarView, AppBarViewProps
-from views.home.home import HomeView
-from views.shared.flexible.flexible import Flexible
+from views.shared.view import View
 
 
 @dataclass
@@ -13,24 +12,22 @@ class AppViewProps:
     """Props for :class:`AppView`."""
 
     title: str
+    child_view: Optional[View]
     app_bar: AppBarViewProps
 
 
-class AppView(Flexible(tk.Frame)):
+class AppView(View[AppViewProps]):
     """View for application (root)."""
 
-    def __init__(self, parent, props: AppViewProps):
-        """Construct view."""
-        super().__init__(parent)
-        self.__props = props
-        self.__render()
+    def _update(self):
+        self.winfo_toplevel().title(self.props.title)
+        self.__bar.update_props(self.props.app_bar)
+        if self.props.child_view is not None:
+            self.props.child_view.master = self
+            self.props.child_view.grid(column=0, row=1, pady=8)
 
-    def __render(self):
-        self.winfo_toplevel().title(self.__props.title)
+    def _render_widgets(self):
         self.rowconfigure(0, weight=0, minsize=32)
         self.rowconfigure(1, weight=1)
-
-        self.__bar = AppBarView(self, self.__props.app_bar)
+        self.__bar = AppBarView(self)
         self.__bar.grid(column=0, row=0)
-        self.__home = HomeView(self)
-        self.__home.grid(column=0, row=1, pady=8)

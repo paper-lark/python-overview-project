@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """MVC controllers."""
-from models.app.app import AppModel
-from models.app.widget_kind import WidgetKind
+from models.app import AppModel, WidgetKind
 from views.app.app import AppView, AppViewProps
 from views.app.app_bar import AppBarViewProps
+from views.calendar.notes import CalendarView
+from views.notes.notes import NotesView
+from views.weather.weather import WeatherView
 
 
 class AppController:
@@ -11,22 +13,19 @@ class AppController:
 
     _title = "Overview"  # TODO: интернационализация
 
-    def __init__(self, parent):
+    def __init__(self, root):
         """Construct controller."""
         self.__model = AppModel(
             title=self._title,
             active_tab_index=0,
             tab_widgets=[WidgetKind.WEATHER, WidgetKind.CALENDAR, WidgetKind.NOTES],
         )
-        self.__parent = parent
-        self.__view = None
-        self.__create_view()
+        self.__root = root
+        self.__view = AppView(master=self.__root)
+        self.__update_view()
 
-    def __create_view(self):
-        if self.__view is not None:
-            self.__view.destroy()
-        self.__view = AppView(
-            self.__parent,
+    def __update_view(self):
+        self.__view.update_props(
             AppViewProps(
                 title=self.__model.title,
                 app_bar=AppBarViewProps(
@@ -34,14 +33,25 @@ class AppController:
                     tabs=self.__model.tab_widgets,
                     on_activate_tab=self.__on_activate_tab,
                 ),
-            ),
+                child_view=self.__get_inner_view_controller(),
+            )
         )
 
+    def __get_inner_view_controller(self):
+        current_tab = self.__model.tab_widgets[self.__model.active_tab_index]
+
+        if current_tab == WidgetKind.NOTES:
+            return NotesView()
+        elif current_tab == WidgetKind.WEATHER:
+            return WeatherView()
+        else:
+            return CalendarView()
+
     def __on_activate_tab(self, tab_index: int):
-        print(f"Active tab: {tab_index}")
+        print(f"Updating to {tab_index}")
         self.__model.active_tab_index = tab_index
-        self.__create_view()  # TODO: refactor update mechanism
+        self.__update_view()
 
     def start(self):
         """Start application."""
-        self.__view.mainloop()
+        self.__root.mainloop()

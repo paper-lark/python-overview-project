@@ -12,7 +12,7 @@ def main():
     root = tk.Tk()
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
-    app = AppController(parent=root)
+    app = AppController(root=root)
     app.start()
 
 
