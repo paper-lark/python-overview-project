@@ -4,7 +4,7 @@
 
 import tkinter as tk
 
-from controllers.app.app import AppController
+from controllers.app import AppController
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
     app = AppController(parent=root)
-    app.mainloop()
+    app.start()
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+"""App views."""
 import tkinter as tk
 from dataclasses import dataclass
 from typing import Callable
@@ -9,13 +9,18 @@ from views.shared.flexible.flexible import Flexible
 
 @dataclass
 class AppBarButtonViewProps:
+    """Props for :class:`AppBarButtonView`."""
+
     text: str
     is_active: bool
     on_click: Callable[[], None]
 
 
 class AppBarButtonView(Flexible(tk.Frame)):
+    """View for application bar button."""
+
     def __init__(self, parent, props: AppBarButtonViewProps):
+        """Construct view."""
         super().__init__(master=parent)
         self.__props = props
         self.__render()
@@ -31,6 +36,6 @@ class AppBarButtonView(Flexible(tk.Frame)):
             overrelief=tk.FLAT,
             anchor=tk.CENTER,
             bd=0,
-            highlightthickness=0
+            highlightthickness=0,
         )
         self.__btn.grid(row=0, column=0, ipadx=4, ipady=2)

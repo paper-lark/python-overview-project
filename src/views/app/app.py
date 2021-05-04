@@ -1,20 +1,26 @@
 # -*- coding: utf-8 -*-
-
+"""App views."""
 import tkinter as tk
 from dataclasses import dataclass
 
-from views.app.app_bar import AppBarViewProps, AppBarView
+from views.app.app_bar import AppBarView, AppBarViewProps
 from views.home.home import HomeView
 from views.shared.flexible.flexible import Flexible
 
+
 @dataclass
 class AppViewProps:
+    """Props for :class:`AppView`."""
+
     title: str
     app_bar: AppBarViewProps
 
 
 class AppView(Flexible(tk.Frame)):
+    """View for application (root)."""
+
     def __init__(self, parent, props: AppViewProps):
+        """Construct view."""
         super().__init__(parent)
         self.__props = props
         self.__render()
