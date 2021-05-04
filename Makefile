@@ -6,11 +6,12 @@ init:
 	poetry install
 
 format:
-	poetry run isort src
+	poetry run isort --line-length 88 src
 	poetry run black src
 
 check:
+	# max length is based on Black defaults
 	poetry run black --check src
-	poetry run isort --check-only src
-	poetry run flake8 --max-line-length 88 src # max length is based on Black defaults
+	poetry run isort --line-length 88 --check-only src
+	poetry run flake8 --max-line-length 88 src
 	poetry run pydocstyle src
