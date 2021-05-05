@@ -3,7 +3,7 @@
 from models.app import AppModel, WidgetKind
 from views.app.app import AppView, AppViewProps
 from views.app.app_bar import AppBarViewProps
-from views.calendar.notes import CalendarView
+from views.calendar.calendar import CalendarView
 from views.notes.notes import NotesView
 from views.weather.weather import WeatherView
 
@@ -33,22 +33,21 @@ class AppController:
                     tabs=self.__model.tab_widgets,
                     on_activate_tab=self.__on_activate_tab,
                 ),
-                child_view=self.__get_inner_view_controller(),
             )
         )
+        self.__view.set_child_view(self.__get_inner_view)
 
-    def __get_inner_view_controller(self):
+    def __get_inner_view(self, master):
         current_tab = self.__model.tab_widgets[self.__model.active_tab_index]
 
         if current_tab == WidgetKind.NOTES:
-            return NotesView()
+            return NotesView(master=master)
         elif current_tab == WidgetKind.WEATHER:
-            return WeatherView()
+            return WeatherView(master=master)
         else:
-            return CalendarView()
+            return CalendarView(master=master)
 
     def __on_activate_tab(self, tab_index: int):
-        print(f"Updating to {tab_index}")
         self.__model.active_tab_index = tab_index
         self.__update_view()
 
