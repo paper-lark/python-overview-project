@@ -5,8 +5,8 @@ import tkinter as tk
 from dataclasses import dataclass
 from typing import Callable
 
+import utils.formatters as fmt
 from models.weather import InstantForecast
-from utils.formatters import format_temperature, format_weather_kind, format_wind
 from views.shared.flexible import Flexible
 from views.shared.view import View
 
@@ -24,23 +24,27 @@ class CurrentWeatherView(View[CurrentWeatherViewProps]):
 
     def _update(self):
         self.__real_temp.configure(
-            text=format_temperature(self.props.forecast.real_temp)
+            text=fmt.format_temperature(self.props.forecast.real_temp)
         )
         self.__feels_like.configure(
-            text="(" + format_temperature(self.props.forecast.feels_like_temp) + ")"
+            text="(" + fmt.format_temperature(self.props.forecast.feels_like_temp) + ")"
         )
         self.__weather_kind.configure(
-            text=format_weather_kind(self.props.forecast.kind, with_desc=True)
+            text=fmt.format_weather_kind(self.props.forecast.kind, with_desc=True)
         )
         self.__wind.configure(
-            text=format_wind(
+            text=fmt.format_wind(
                 self.props.forecast.wind_speed, self.props.forecast.wind_direction
             )
         )
         self.__refresh.configure(command=self.props.on_refresh)
-        self.__humidity.configure(text=f"Humidity: {self.props.forecast.humidity}%")
+        self.__humidity.configure(
+            text=_("Humidity") + f": {self.props.forecast.humidity}%"
+        )
         self.__pressure.configure(
-            text=f"Pressure: {int(self.props.forecast.pressure * 0.00750062)} mmHg"
+            text=_("Pressure")
+            + ": "
+            + fmt.format_pressure(self.props.forecast.pressure)
         )
 
     def _render_widgets(self):
@@ -63,7 +67,7 @@ class CurrentWeatherView(View[CurrentWeatherViewProps]):
             fg="#777777",
         )
         self.__feels_like.grid(row=0, column=0, sticky="NEWS")
-        self.__refresh = tk.Button(container, text="↺")
+        self.__refresh = tk.Button(container, text=_("Refresh"))
         self.__refresh.grid(row=0, column=1, sticky="SE")
 
         self.__weather_kind = Flexible(tk.Label)(

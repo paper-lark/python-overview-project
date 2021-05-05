@@ -30,8 +30,6 @@ class WeatherView(View[WeatherViewProps]):
             self.__loading.lift()
             return
 
-        self.__loading.stop()
-        self.__loading.lower()
         self.__current.update_props(
             CurrentWeatherViewProps(
                 forecast=self.props.forecast.current,
@@ -41,6 +39,8 @@ class WeatherView(View[WeatherViewProps]):
         self.__today.update_props(
             TodayWeatherViewProps(forecasts=self.props.forecast.hourly)
         )
+        self.__loading.stop()
+        self.__loading.lower()
 
     def _render_widgets(self):
         self.__container = Flexible(ttk.Frame)(self)

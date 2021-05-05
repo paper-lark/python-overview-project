@@ -2,26 +2,28 @@
 """Utils for text formatting."""
 import datetime
 
-from models.weather import WeatherKind
+import babel.dates as dates
+import babel.units as units
 
-# TODO: интернациоанлизация
+from models.weather import WeatherKind
 
 
 def format_temperature(temp: float) -> str:
-    """Format temperature in Celcius."""
-    return f"{int(temp)}℃"
+    """Format temperature in Celsius."""
+    return units.format_unit(int(temp), "temperature-celsius", "short")
 
 
 def format_weather_kind(kind: WeatherKind, with_desc: bool = False) -> str:
     """Format weather kind."""
     if with_desc:
+        icon = format_weather_kind(kind)
         return {
-            WeatherKind.SUNNY: "Sunny ☀️",
-            WeatherKind.RAIN: "Rainy ☔️",
-            WeatherKind.CLOUDY: "Cloudy ☁️",
-            WeatherKind.STORM: "Storm ⚡️",
-            WeatherKind.DRIZZLE: "Drizzle ☔️",
-            WeatherKind.SNOW: "Snow ❄️",
+            WeatherKind.SUNNY: _("Sunny") + " " + icon,
+            WeatherKind.RAIN: _("Rainy") + " " + icon,
+            WeatherKind.CLOUDY: _("Cloudy") + " " + icon,
+            WeatherKind.STORM: _("Storm") + " " + icon,
+            WeatherKind.DRIZZLE: _("Drizzle") + " " + icon,
+            WeatherKind.SNOW: _("Snow") + " " + icon,
         }[kind]
     else:
         return {
@@ -36,29 +38,42 @@ def format_weather_kind(kind: WeatherKind, with_desc: bool = False) -> str:
 
 def format_time(t: datetime.time) -> str:
     """Format time."""
-    return t.strftime("%H:%M")
+    return dates.format_time(t, format="short")
 
 
 def format_wind(speed: float, direction: float) -> str:
     """Format wind parameters."""
-    return f"💨 {speed} m/s, {format_direction(direction)}"
+    formatted_speed = units.format_unit(speed, "speed-meter-per-second", "short")
+    return f"💨 {formatted_speed}, {format_direction(direction)}"
+
+
+def format_pressure(pressure_in_pa: float) -> str:
+    """Format pressure."""
+    pressure_in_mm_hg = int(pressure_in_pa * 0.00750062)
+    try:
+        return units.format_unit(
+            pressure_in_mm_hg, "pressure-millimeter-of-mercury", "short"
+        )
+    except units.UnknownUnitError:
+        # NOTE: для русского языка нет перевода
+        return str(pressure_in_mm_hg) + " " + _("mmHg")
 
 
 def format_direction(direction_in_degrees: float) -> str:
     """Format direction given in degrees."""
     if direction_in_degrees <= 22.5 or direction_in_degrees > 337.5:
-        return "N"
+        return _("N")
     elif direction_in_degrees <= 67.5:
-        return "NE"
+        return _("NE")
     elif direction_in_degrees <= 112.5:
-        return "E"
+        return _("E")
     elif direction_in_degrees <= 157.5:
-        return "SE"
+        return _("SE")
     elif direction_in_degrees <= 202.5:
-        return "S"
+        return _("S")
     elif direction_in_degrees <= 247.5:
-        return "SW"
+        return _("SW")
     elif direction_in_degrees <= 292.5:
-        return "W"
+        return _("W")
     else:
-        return "NW"
+        return _("NW")
