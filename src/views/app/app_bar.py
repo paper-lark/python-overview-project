@@ -49,7 +49,7 @@ class AppBarView(View[AppBarViewProps]):
                 is_active=self.props.active_tab_index == tab_index,
                 on_click=lambda: self.props.on_activate_tab(tab_index),
             )
-        )  # FIXME: объединить конфигурацию кнопок
+        )
         return btn
 
     @classmethod
