@@ -39,4 +39,4 @@ class AppView(View[AppViewProps]):
         self.__bar = AppBarView(self)
         self.__bar.grid(column=0, row=0)
         self.__container = Flexible(tk.Frame)(self)
-        self.__container.grid(row=1, column=0, pady=8)
+        self.__container.grid(row=1, column=0)

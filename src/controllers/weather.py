@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """MVC controllers."""
-from models.geolocation import GeolocationModel
+import asyncio
+
 from models.weather import WeatherModel
+from utils.execution import run_in_background
 from views.weather.weather import WeatherView, WeatherViewProps
 
 
@@ -12,10 +14,8 @@ class WeatherController:
         """Construct controller."""
         self.__view = None
         self.model = WeatherModel()
-        self._geo_model = GeolocationModel()
-        lat, lon = self._geo_model.fetch_geolocation()
-        self.model.fetch_forecast(lat, lon)
-        # FIXME: load data asynchronously async
+        self._update_thread = None
+        self._on_refresh()
 
     def create_view(self, master) -> WeatherView:
         """Create controlled view on the specified master widget."""
@@ -24,8 +24,17 @@ class WeatherController:
         return self.__view
 
     def _on_refresh(self):
-        lat, lon = self._geo_model.fetch_geolocation()
-        self.model.fetch_forecast(lat, lon)
+        if self._update_thread is not None and self._update_thread.is_alive():
+            return
+        self.model.is_loading = True
+        self._update_view()
+        self._update_thread = run_in_background(self._fetch_forecast())
+
+    async def _fetch_forecast(self):
+        loop = asyncio.get_event_loop()
+        lat, lon = await loop.run_in_executor(None, self.model.fetch_geolocation)
+        await loop.run_in_executor(None, lambda: self.model.fetch_forecast(lat, lon))
+        self.model.is_loading = False
         self._update_view()
 
     def _update_view(self):
@@ -33,7 +42,7 @@ class WeatherController:
             self.__view.update_props(
                 WeatherViewProps(
                     forecast=self.model.forecast,
-                    on_refresh=self._on_refresh
+                    is_loading=self.model.is_loading,
+                    on_refresh=self._on_refresh,
                 )
             )
-

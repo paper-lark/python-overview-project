@@ -5,7 +5,9 @@ import tkinter as tk
 from dataclasses import dataclass
 from typing import List
 
+import utils.formatters as fmt
 from models.weather import InstantForecast
+from views.shared.flexible import Flexible
 from views.shared.scrollable import Scrollable
 from views.shared.view import View
 
@@ -24,24 +26,43 @@ class TodayWeatherView(View[TodayWeatherViewProps]):
         self._scroll = Scrollable(self)
         self._scroll.grid(row=0, column=0, padx=8, sticky="NEWS")
         self.__rows = []
+        self._scroll.container.columnconfigure(0, weight=0)
+        self._scroll.container.columnconfigure(1, weight=0)
+        self._scroll.container.columnconfigure(2, weight=0)
+        self._scroll.container.columnconfigure(3, weight=1)
 
-    def _render_forecast(self, row_index, forecast: InstantForecast):
-        lbl = tk.Label(
+    def _render_forecast(self, index: int, forecast: InstantForecast):
+        time_lbl = Flexible(tk.Label)(
             self._scroll.container,
             anchor=tk.W,
-            text=f"{forecast.ts.time()} {forecast.real_temp}℃"
-            + f"({forecast.feels_like_temp}℃) | wind: "
-            + f"{forecast.wind_speed} mps "
-            + f"(direction: {forecast.wind_direction})",
+            text=fmt.format_time(forecast.ts.time()),
         )
-        self._scroll.container.rowconfigure(row_index, weight=1)
-        lbl.grid(row=row_index, column=0, sticky="NEWS")
-        return lbl
+        time_lbl.grid(row=index, padx=2, column=0)
+        kind_lbl = Flexible(tk.Label)(
+            self._scroll.container,
+            anchor=tk.W,
+            text=fmt.format_weather_kind(forecast.kind),
+        )
+        kind_lbl.grid(row=index, padx=2, column=1)
+        temp_lbl = Flexible(tk.Label)(
+            self._scroll.container,
+            anchor=tk.W,
+            text=fmt.format_temperature(forecast.real_temp),
+        )
+        temp_lbl.grid(row=index, padx=2, column=2)
+        wind_lbl = Flexible(tk.Label)(
+            self._scroll.container,
+            anchor=tk.W,
+            text=fmt.format_wind(forecast.wind_speed, forecast.wind_direction),
+        )
+        wind_lbl.grid(row=index, padx=2, column=3)
+
+        return [time_lbl, kind_lbl, temp_lbl, wind_lbl]
 
     def _update(self):
         for r in self.__rows:
-            r.destroy()
-
+            for e in r:
+                e.destroy()
         self.__rows = [
-            self._render_forecast(i, f) for i, f in enumerate(self.props.forecasts[:12])
+            self._render_forecast(i, f) for i, f in enumerate(self.props.forecasts[:24])
         ]

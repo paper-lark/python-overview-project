@@ -52,7 +52,7 @@ class InstantForecast:
     real_temp: float
     feels_like_temp: float
     humidity: int
-    pressure: int
+    pressure: int  # in Pa
     wind_speed: int
     wind_direction: int
 
@@ -71,7 +71,7 @@ class InstantForecast:
             real_temp=float(obj["temp"]),
             feels_like_temp=float(obj["feels_like"]),
             humidity=int(obj["humidity"]),
-            pressure=int(obj["pressure"]),
+            pressure=int(obj["pressure"]) * 100,
             wind_speed=int(obj["wind_speed"]),
             wind_direction=int(obj["wind_deg"]),
         )
@@ -112,7 +112,7 @@ class DailyForecast:
     real_temp: DailyTemperature
     feels_like_temp: DailyTemperature
     humidity: int
-    pressure: int
+    pressure: int  # in Pa
     wind_speed: int
     wind_direction: int
 
@@ -131,7 +131,7 @@ class DailyForecast:
             feels_like_temp=DailyTemperature.from_api(obj["feels_like"]),
             kind=WeatherKind.from_api(int(obj["weather"][0]["id"])),
             humidity=int(obj["humidity"]),
-            pressure=int(obj["pressure"]),
+            pressure=int(obj["pressure"]) * 100,
             wind_speed=int(obj["wind_speed"]),
             wind_direction=int(obj["wind_deg"]),
         )
@@ -154,9 +154,11 @@ class WeatherModel:
     def __init__(self):
         """Construct model."""
         self.forecast: Optional[WeatherForecast] = None
+        self.is_loading = False
 
     def fetch_forecast(self, latitude: float, longitude: float):
         """Get forecast."""
+        print(f"Fetching weather forecast for ({latitude}, {longitude})")
         res = requests.get(self.__get_url(longitude, latitude))
         res.raise_for_status()
         result = res.json()
@@ -170,7 +172,15 @@ class WeatherModel:
             daily=list(map(lambda obj: DailyForecast.from_api(obj), result["daily"])),
         )
 
+    def fetch_geolocation(self) -> Tuple[float, float]:
+        """Get current geolocation.
 
+        :return: tuple with latitude and longitude.
+        """
+        print("Fetching geolocation")
+        res = requests.get("https://ipinfo.io/loc")
+        lat, lon = map(lambda x: float(x), res.text.split(","))
+        return lat, lon
 
     def __get_url(self, longitude, latitude):
         return (
