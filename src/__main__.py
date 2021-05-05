@@ -2,10 +2,18 @@
 # -*- coding: utf-8 -*-
 """Main module of application."""
 
+import tkinter as tk
+
+from controllers.app import AppController
+
 
 def main():
     """Application entry point."""
-    pass
+    root = tk.Tk()
+    root.columnconfigure(0, weight=1)
+    root.rowconfigure(0, weight=1)
+    app = AppController(root=root)
+    app.start()
 
 
 if __name__ == "__main__":
