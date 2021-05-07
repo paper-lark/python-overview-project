@@ -163,7 +163,6 @@ class WeatherModel:
         res.raise_for_status()
         result = res.json()
 
-        # TODO: написать тесты на парсеры ответа API
         self.forecast = WeatherForecast(
             current=InstantForecast.from_api(result["current"]),
             hourly=list(

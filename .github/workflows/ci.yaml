@@ -21,7 +21,12 @@ jobs:
           source $HOME/.poetry/env
           poetry install --no-root
 
-      - name: Run checks
+      - name: Run static code checks
         run: |
           source $HOME/.poetry/env
           make check
+
+      - name: Run unit tests
+        run: |
+          source $HOME/.poetry/env
+          make unit-test

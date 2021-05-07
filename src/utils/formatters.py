@@ -38,7 +38,7 @@ def format_weather_kind(kind: WeatherKind, with_desc: bool = False) -> str:
 
 def format_time(t: datetime.time) -> str:
     """Format time."""
-    return dates.format_time(t, format="short")
+    return dates.format_time(t, format="hh:mm")
 
 
 def format_wind(speed: float, direction: float) -> str:
