@@ -11,7 +11,7 @@ from views.notes.notes import NotesView
 class AppController:
     """Application controller (root controller)."""
 
-    _title = "Overview"  # TODO: интернационализация
+    _title = "Overview"
 
     def __init__(self, root):
         """Construct controller."""

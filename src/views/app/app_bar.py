@@ -21,15 +21,9 @@ class AppBarViewProps:
 class AppBarView(View[AppBarViewProps]):
     """View for application bar."""
 
-    __tab_names = {
-        WidgetKind.NOTES: "Notes",
-        WidgetKind.WEATHER: "Weather",
-        WidgetKind.CALENDAR: "Calendar",
-    }  # TODO: интернационализация
-
     def _update(self):
         for btn in self.__buttons:
-            btn.destroy()  # TODO: add convenience method for removing children
+            btn.destroy()
 
         self.__buttons = [
             self.__render_button(i, t) for i, t in enumerate(self.props.tabs)
@@ -54,6 +48,11 @@ class AppBarView(View[AppBarViewProps]):
 
     @classmethod
     def __get_tab_name(cls, tab_kind):
-        if tab_kind not in cls.__tab_names:
+        tab_names = {
+            WidgetKind.NOTES: _("Notes"),
+            WidgetKind.WEATHER: _("Weather"),
+            WidgetKind.CALENDAR: _("Calendar"),
+        }
+        if tab_kind not in tab_names:
             raise Exception(f"unsupported tab kind={tab_kind}")
-        return cls.__tab_names[tab_kind]
+        return tab_names[tab_kind]
