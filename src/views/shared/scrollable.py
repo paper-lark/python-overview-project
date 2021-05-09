@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Scrollable area widget."""
 import tkinter as tk
-from tkinter import ttk
 from sys import platform
+from tkinter import ttk
 
 from views.shared.flexible import Flexible
 
@@ -45,17 +45,19 @@ class Scrollable(Flexible(tk.LabelFrame)):
         if platform == "darwin":
             # macOS
             self._canvas.bind_all(
-                "<MouseWheel>",
-                lambda e: self._canvas.yview_scroll(-e.delta, "units"))
+                "<MouseWheel>", lambda e: self._canvas.yview_scroll(-e.delta, "units")
+            )
         elif platform == "win32":
             # Windows
             self._canvas.bind_all(
                 "<MouseWheel>",
-                lambda e: self._canvas.yview_scroll(-e.delta / 120, "units"))
+                lambda e: self._canvas.yview_scroll(-e.delta / 120, "units"),
+            )
         else:
             # Linux
             def on_scroll(e):
                 self._canvas.yview_scroll(-e.delta / 120, "units")
+
             self._canvas.bind_all("<Button-4>", on_scroll)
             self._canvas.bind_all("<Button-5>", on_scroll)
 

@@ -1,14 +1,14 @@
 """Notes models."""
-import os
-import string
 import datetime
+import os
 from collections import OrderedDict
 from sys import platform
 
-class Note:
-    """Class for storing note"""
 
-    def __init__(self, id, title = 'Untitled', text = ''):
+class Note:
+    """Class for storing note."""
+
+    def __init__(self, id, title="Untitled", text=""):
         """Construct new note model.
 
         :param id: unique integer - number of note
@@ -23,7 +23,7 @@ class Note:
         self.saveNote()
 
     def __del__(self):
-        """Deleting note from disk."""
+        """Delete note from disk."""
         os.remove(os.path.join(NotesModel.notesDirPath, self._id))
 
     def _setNote(self, title, text, creationTime, lastChangeTime):
@@ -48,15 +48,15 @@ class Note:
                 note = Note(id)
                 note._setNote(title, text, creationTime, lastChangeTime)
                 return note
-        except:
+        except Exception:
             return Note(id)
 
     def saveNote(self):
         """Save note to disk."""
         with open(os.path.join(NotesModel.notesDirPath, self._id), "w+") as f:
-            f.write(self._title + '\n')
-            f.write(self._creationTime + '\n')
-            f.write(self._lastChangeTime + '\n')
+            f.write(self._title + "\n")
+            f.write(self._creationTime + "\n")
+            f.write(self._lastChangeTime + "\n")
             f.write(self._text)
 
     @property
@@ -77,11 +77,11 @@ class Note:
 
     @title.setter
     def title(self, t):
-        """Update note title (this will change lastChangeTime).
+        """Update note (this will change lastChangeTime).
 
         :param t: new note title
         """
-        self._title = ''.join(t.split('\n'))
+        self._title = "".join(t.split("\n"))
         self._lastChangeTime = datetime.datetime.now()
         self.saveNote()
 
@@ -95,7 +95,7 @@ class Note:
 
     @text.setter
     def text(self, t):
-        """Update note text (this will change lastChangeTime).
+        """Update note (this will change lastChangeTime).
 
         :param t: new note text
         """
@@ -121,13 +121,13 @@ class Note:
 
 
 class NotesModel:
-    """Model for managing notes"""
+    """Model for managing notes."""
 
-    notesDirPath = '/var/lib/python-overview-project'
+    notesDirPath = "/var/lib/python-overview-project"
     if platform.startswith("darwin"):
-        notesDirPath = '/Library/python-overview-project'
+        notesDirPath = "/Library/python-overview-project"
     elif platform.startswith("win32"):
-        notesDirPath = os.getenv('APPDATA')
+        notesDirPath = os.getenv("APPDATA")
 
     def __init__(self):
         """Construct NotesModel."""
@@ -140,17 +140,19 @@ class NotesModel:
 
     def sortNotes(self):
         """Sort notes by datetime of last change."""
-        self._notes = OrderedDict(sorted(self._notes.items(), key = lambda x:x[1].lastChangeTime))
+        self._notes = OrderedDict(
+            sorted(self._notes.items(), key=lambda x: x[1].lastChangeTime)
+        )
 
     def createNote(self, title, text):
         """Create new note and store it.
-        
+
         :param title: title of new note
         :param text: text of new note
         """
         id = 0
         for i in range(len(self._notes.keys()) + 1):
-            if not i in self._notes.keys():
+            if i not in self._notes.keys():
                 id = i
                 break
 
@@ -158,30 +160,26 @@ class NotesModel:
 
     def deleteNote(self, id):
         """Delete note by id.
-        
+
         :param id: id of note to be deleted
         """
         del self._notes[id]
 
     def updateNote(self, id, title, text):
         """Update existing note.
-        
+
         :param id: id of note to be updated
         :param title: new title of note
-        :param text: new text of note 
+        :param text: new text of note
         """
         self._notes[id].title = title
         self._notes[id].text = text
         self._notes.move_to_end(id)
 
-
     @property
     def notes(self):
         """Get existing notes.
-        
+
         :return: OrderedDict on Note objects
-        """ 
+        """
         return self._notes
-
-    
-
