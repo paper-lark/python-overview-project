@@ -68,7 +68,7 @@ class InstantForecast:
         :return: forecast data
         """
         return InstantForecast(
-            ts=tz.localize(datetime.datetime.fromtimestamp(obj["dt"])),
+            ts=datetime.datetime.fromtimestamp(obj["dt"], tz=pytz.UTC).astimezone(tz),
             kind=WeatherKind.from_api(int(obj["weather"][0]["id"])),
             real_temp=float(obj["temp"]),
             feels_like_temp=float(obj["feels_like"]),
