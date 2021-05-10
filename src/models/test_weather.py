@@ -2,6 +2,7 @@
 import datetime
 
 import pytest
+import pytz
 import requests
 
 import models.weather as weather
@@ -158,9 +159,10 @@ def weather_forecast_json():
 
 @pytest.fixture
 def weather_forecast_dto():
+    tz = pytz.timezone("Europe/Moscow")
     return weather.WeatherForecast(
         current=weather.InstantForecast(
-            ts=datetime.datetime(2021, 5, 7, 22, 15, 3),
+            ts=tz.localize(datetime.datetime(2021, 5, 7, 22, 15, 3)),
             kind=weather.WeatherKind.SUNNY,
             real_temp=11.0,
             feels_like_temp=9.2,
@@ -171,7 +173,7 @@ def weather_forecast_dto():
         ),
         hourly=[
             weather.InstantForecast(
-                ts=datetime.datetime(2021, 5, 7, 22, 0),
+                ts=tz.localize(datetime.datetime(2021, 5, 7, 22, 0)),
                 kind=weather.WeatherKind.SUNNY,
                 real_temp=11.0,
                 feels_like_temp=9.2,
@@ -181,7 +183,7 @@ def weather_forecast_dto():
                 wind_direction=183,
             ),
             weather.InstantForecast(
-                ts=datetime.datetime(2021, 5, 7, 23, 0),
+                ts=tz.localize(datetime.datetime(2021, 5, 7, 23, 0)),
                 kind=weather.WeatherKind.CLOUDY,
                 real_temp=10.72,
                 feels_like_temp=8.97,
