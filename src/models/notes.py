@@ -15,7 +15,7 @@ class Note:
         :param title: title of note
         :param text: text of note
         """
-        self._id = id
+        self._id = str(id)
         self._title = title
         self._text = text
         self._creationTime = datetime.datetime.now()
@@ -41,10 +41,14 @@ class Note:
         """
         try:
             with open(os.path.join(NotesModel.notesDirPath, str(id)), "r") as f:
-                title = f.readline().split('\n')[0]
-                creationTime = datetime.datetime.fromisoformat(f.readline().split('\n')[0])
-                lastChangeTime = datetime.datetime.fromisoformat(f.readline().split('\n')[0])
-                text = ''.join(f.readlines())
+                title = f.readline().split("\n")[0]
+                creationTime = datetime.datetime.fromisoformat(
+                    f.readline().split("\n")[0]
+                )
+                lastChangeTime = datetime.datetime.fromisoformat(
+                    f.readline().split("\n")[0]
+                )
+                text = "".join(f.readlines())
                 note = Note(id)
                 note._setNote(title, text, creationTime, lastChangeTime)
                 return note
@@ -56,7 +60,7 @@ class Note:
         with open(os.path.join(NotesModel.notesDirPath, str(self._id)), "w+") as f:
             f.write(self._title + "\n")
             f.write(self._creationTime.isoformat() + "\n")
-            f.write(self._lastChangeTime.isoformat()+ "\n")
+            f.write(self._lastChangeTime.isoformat() + "\n")
             f.write(self._text)
 
     @property
@@ -147,27 +151,27 @@ class NotesModel:
             sorted(self._notes.items(), key=lambda x: x[1].lastChangeTime)
         )
 
-    def createNote(self, title = 'Untitled', text = ''):
+    def createNote(self, title="Untitled", text=""):
         """Create new note and store it.
 
         :param title: title of new note
         :param text: text of new note
         """
         id = 0
-        for i in range(len(self._notes.keys()) + 1):
-            if i not in self._notes.keys():
+        for i in range(len(list(self._notes.keys())) + 1):
+            if str(i) not in self._notes.keys():
                 id = i
                 break
 
-        self._notes[id] = Note(id, title, text)
+        self._notes[str(id)] = Note(id, title, text)
 
     def deleteNote(self, id):
         """Delete note by id.
 
         :param id: id of note to be deleted
         """
-        if id in self._notes.keys():
-            del self._notes[id]
+        if str(id) in self._notes.keys():
+            del self._notes[str(id)]
 
     def updateNote(self, id, title, text):
         """Update existing note.
@@ -176,10 +180,10 @@ class NotesModel:
         :param title: new title of note
         :param text: new text of note
         """
-        if id in self._notes.keys():
-            self._notes[id].title = title
-            self._notes[id].text = text
-            self._notes.move_to_end(id)
+        if str(id) in self._notes.keys():
+            self._notes[str(id)].title = title
+            self._notes[str(id)].text = text
+            self._notes.move_to_end(str(id))
 
     @property
     def notes(self):

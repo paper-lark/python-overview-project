@@ -5,7 +5,6 @@ from models.app import AppModel, WidgetKind
 from views.app.app import AppView, AppViewProps
 from views.app.app_bar import AppBarViewProps
 from views.calendar.calendar import CalendarView
-from views.notes.notes import NotesView
 from views.weather.weather import WeatherView
 
 
