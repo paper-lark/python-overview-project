@@ -24,7 +24,7 @@ class Note:
 
     def __del__(self):
         """Delete note from disk."""
-        os.remove(os.path.join(NotesModel.notesDirPath, self._id))
+        os.remove(os.path.join(NotesModel.notesDirPath, str(self._id)))
 
     def _setNote(self, title, text, creationTime, lastChangeTime):
         self._title = title
@@ -40,11 +40,11 @@ class Note:
         :return: loaded note or empty note if loading failed
         """
         try:
-            with open(os.path.join(NotesModel.notesDirPath, id), "r") as f:
-                title = f.readline()
-                creationTime = datetime.datetime.strptime(f.readline())
-                lastChangeTime = datetime.datetime.strptime(f.readline())
-                text = f.readlines()
+            with open(os.path.join(NotesModel.notesDirPath, str(id)), "r") as f:
+                title = f.readline().split('\n')[0]
+                creationTime = datetime.datetime.fromisoformat(f.readline().split('\n')[0])
+                lastChangeTime = datetime.datetime.fromisoformat(f.readline().split('\n')[0])
+                text = ''.join(f.readlines())
                 note = Note(id)
                 note._setNote(title, text, creationTime, lastChangeTime)
                 return note
@@ -53,10 +53,10 @@ class Note:
 
     def saveNote(self):
         """Save note to disk."""
-        with open(os.path.join(NotesModel.notesDirPath, self._id), "w+") as f:
+        with open(os.path.join(NotesModel.notesDirPath, str(self._id)), "w+") as f:
             f.write(self._title + "\n")
-            f.write(self._creationTime + "\n")
-            f.write(self._lastChangeTime + "\n")
+            f.write(self._creationTime.isoformat() + "\n")
+            f.write(self._lastChangeTime.isoformat()+ "\n")
             f.write(self._text)
 
     @property
@@ -123,15 +123,18 @@ class Note:
 class NotesModel:
     """Model for managing notes."""
 
-    notesDirPath = "/var/lib/python-overview-project"
+    notesDirPath = "~/.python-overview-project"
     if platform.startswith("darwin"):
-        notesDirPath = "/Library/python-overview-project"
+        notesDirPath = "~/Library/python-overview-project"
     elif platform.startswith("win32"):
         notesDirPath = os.getenv("APPDATA")
 
     def __init__(self):
         """Construct NotesModel."""
         self._notes = OrderedDict()
+        if not os.path.exists(NotesModel.notesDirPath):
+            os.makedirs(NotesModel.notesDirPath)
+
         for f in os.listdir(NotesModel.notesDirPath):
             if f.isnumeric():
                 self._notes[f] = Note.loadNote(f)
@@ -144,7 +147,7 @@ class NotesModel:
             sorted(self._notes.items(), key=lambda x: x[1].lastChangeTime)
         )
 
-    def createNote(self, title, text):
+    def createNote(self, title = 'Untitled', text = ''):
         """Create new note and store it.
 
         :param title: title of new note
@@ -163,7 +166,8 @@ class NotesModel:
 
         :param id: id of note to be deleted
         """
-        del self._notes[id]
+        if id in self._notes.keys():
+            del self._notes[id]
 
     def updateNote(self, id, title, text):
         """Update existing note.
@@ -172,9 +176,10 @@ class NotesModel:
         :param title: new title of note
         :param text: new text of note
         """
-        self._notes[id].title = title
-        self._notes[id].text = text
-        self._notes.move_to_end(id)
+        if id in self._notes.keys():
+            self._notes[id].title = title
+            self._notes[id].text = text
+            self._notes.move_to_end(id)
 
     @property
     def notes(self):

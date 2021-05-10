@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """MVC controllers."""
+from controllers.notes import NotesController
 from models.app import AppModel, WidgetKind
 from views.app.app import AppView, AppViewProps
 from views.app.app_bar import AppBarViewProps
@@ -22,6 +23,7 @@ class AppController:
         )
         self.__root = root
         self.__view = AppView(master=self.__root)
+        self._notes_vc = NotesController()
         self.__update_view()
 
     def __update_view(self):
@@ -41,7 +43,7 @@ class AppController:
         current_tab = self.__model.tab_widgets[self.__model.active_tab_index]
 
         if current_tab == WidgetKind.NOTES:
-            return NotesView(master=master)
+            return self._notes_vc.createView(master)
         elif current_tab == WidgetKind.WEATHER:
             return WeatherView(master=master)
         else:
