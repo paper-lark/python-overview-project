@@ -7,7 +7,6 @@ import enum
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
 
-import pytz
 import requests
 
 
@@ -58,7 +57,7 @@ class InstantForecast:
     wind_direction: int
 
     @staticmethod
-    def from_api(obj: Dict, tz: pytz.UTC) -> InstantForecast:
+    def from_api(obj: Dict, tz: datetime.tzinfo) -> InstantForecast:
         """Parse forecast data from API response.
 
         Read more: https://openweathermap.org/api/one-call-api#parameter
@@ -68,7 +67,9 @@ class InstantForecast:
         :return: forecast data
         """
         return InstantForecast(
-            ts=datetime.datetime.fromtimestamp(obj["dt"], tz=pytz.UTC).astimezone(tz),
+            ts=datetime.datetime.fromtimestamp(
+                obj["dt"], tz=datetime.timezone.utc
+            ).astimezone(tz),
             kind=WeatherKind.from_api(int(obj["weather"][0]["id"])),
             real_temp=float(obj["temp"]),
             feels_like_temp=float(obj["feels_like"]),
@@ -165,7 +166,9 @@ class WeatherModel:
         res.raise_for_status()
         result = res.json()
 
-        tz = pytz.timezone(result["timezone"])
+        tz = datetime.timezone(
+            datetime.timedelta(seconds=int(result["timezone_offset"]))
+        )
         self.forecast = WeatherForecast(
             current=InstantForecast.from_api(result["current"], tz),
             hourly=list(
@@ -173,6 +176,7 @@ class WeatherModel:
             ),
             daily=list(map(lambda obj: DailyForecast.from_api(obj), result["daily"])),
         )
+        print(self.forecast)
         print("Forecast state updated")
 
     def fetch_geolocation(self) -> Tuple[float, float]:
