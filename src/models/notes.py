@@ -8,19 +8,21 @@ from sys import platform
 class Note:
     """Class for storing note."""
 
-    def __init__(self, id, title="Untitled", text=""):
+    def __init__(self, id, title="Untitled", text="", savePrevious=False):
         """Construct new note model.
 
         :param id: unique integer - number of note
         :param title: title of note
         :param text: text of note
+        :param savePrevious: True if note with this id already exists
         """
         self._id = str(id)
         self._title = title
         self._text = text
         self._creationTime = datetime.datetime.now()
         self._lastChangeTime = datetime.datetime.now()
-        self.saveNote()
+        if not savePrevious:
+            self.saveNote()
 
     def deleteFromDisk(self):
         """Delete note from disk."""
@@ -49,7 +51,7 @@ class Note:
                     f.readline().split("\n")[0]
                 )
                 text = "".join(f.readlines())
-                note = Note(id)
+                note = Note(id, savePrevious=True)
                 note._setNote(title, text, creationTime, lastChangeTime)
                 return note
         except Exception:
