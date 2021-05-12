@@ -33,11 +33,10 @@ class AppView(View[AppViewProps]):
         self.__bar.update_props(self.props.app_bar)
 
     def _render_widgets(self):
-        self.configure(bg="red")
         self.__child = None
         self.rowconfigure(0, weight=0, minsize=32)
         self.rowconfigure(1, weight=1)
         self.__bar = AppBarView(self)
         self.__bar.grid(column=0, row=0)
         self.__container = Flexible(tk.Frame)(self)
-        self.__container.grid(row=1, column=0, pady=8)
+        self.__container.grid(row=1, column=0)
