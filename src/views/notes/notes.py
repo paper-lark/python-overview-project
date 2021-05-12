@@ -22,10 +22,23 @@ class NoteViewProps:
 
 
 @dataclass
+class NoteHeaderViewProps:
+    """Props for note view."""
+
+    id: int
+    currentId: int
+    title: str
+    text: str
+    creationTime: datetime.datetime
+    lastChangeTime: datetime.datetime
+
+
+@dataclass
 class NotesViewProps:
     """Props for all notes view."""
 
     notesDict: OrderedDict
+    currentId: int
 
 
 class CurrentNote(View[NoteViewProps]):
@@ -53,26 +66,35 @@ class CurrentNote(View[NoteViewProps]):
         self.rowconfigure(1, weight=1)
 
 
-class NoteHeader(View[NoteViewProps]):
+class NoteHeader(View[NoteHeaderViewProps]):
     """View for note in scrollable view."""
+
+    def _highlight(self):
+        self._title.configure(background="white", font="Arial 18 bold")
+        self._lastChangeTime.configure(background="white")
+        self.configure(background="white")
 
     def _update(self):
         self._title.configure(text=self.props.title)
         self._lastChangeTime.configure(text=self.props.lastChangeTime)
+        if self.props.currentId == self.props.id:
+            self._highlight()
 
     def _render_widgets(self):
         self._title = Flexible(tk.Label)(self)
         self._lastChangeTime = Flexible(tk.Label)(self)
 
-        self._title.grid(row=0, column=0, sticky="NEWS")
-        self._lastChangeTime.grid(row=1, column=0, sticky="NEWS")
+        self._title.configure(font="Arial 16")
+        self._lastChangeTime.configure(font="Arial 12")
+        self._title.grid(row=0, column=0, sticky="NWS")
+        self._lastChangeTime.grid(row=1, column=0, sticky="NWS")
 
 
 class NotesView(View[NotesViewProps]):
     """View for notes screen."""
 
     def _update(self):
-        for header in self._notesHeaders:
+        for header in self._notesHeaders.values():
             header.destroy()
 
         if len(self.props.notesDict.items()) == 0:
@@ -80,18 +102,19 @@ class NotesView(View[NotesViewProps]):
 
         for i, kv in enumerate(reversed(self.props.notesDict.items())):
             id, note = kv
-            # self._notesList.rowconfigure(i+1, weight = 0)
-            self._notesHeaders.append(NoteHeader(self.notesList.container))
-            self._notesHeaders[-1].grid(column=0, row=i + 1, sticky="NEWS")
-            self._notesHeaders[-1].update_props(
-                NoteViewProps(
+            header = NoteHeader(self.notesList.container)
+            header.grid(column=0, row=i + 1, sticky="NEWS")
+            header.update_props(
+                NoteHeaderViewProps(
                     note.id,
+                    self.props.currentId,
                     note.title,
                     note.text,
                     note.creationTime,
                     note.lastChangeTime,
                 )
             )
+            self._notesHeaders[id] = header
 
     def _render_widgets(self):
         self.rowconfigure(0, weight=0)
@@ -110,7 +133,7 @@ class NotesView(View[NotesViewProps]):
         self.deleteButton.grid(column=2, row=0, sticky="NEWS")
         self.notesList = Scrollable(self)
         self.notesList.grid(column=0, row=1, columnspan=3, sticky="NEWS")
-        self.notesList.container.columnconfigure(0, weight = 1)
-        self._notesHeaders = []
+        self.notesList.columnconfigure(0, weight=1)
+        self._notesHeaders = {}
         self.currentNote = CurrentNote(self)
-        self.currentNote.grid(column=4, row=0, rowspan=2, sticky="NEWS")
+        self.currentNote.grid(column=3, row=0, rowspan=2, sticky="NEWS")

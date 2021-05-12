@@ -20,6 +20,8 @@ class NotesController:
         self._view = NotesView(master)
         if len(list(self._model.notes.items())) > 0:
             self._current_id = next(reversed(self._model.notes))
+        else:
+            self._current_id = -1
         self._view.bind_all("<Prior>", self._goNewerNote)
         self._view.bind_all("<Next>", self._goOlderNote)
         self._view.newButton.configure(command=self._createNote)
@@ -29,7 +31,7 @@ class NotesController:
         return self._view
 
     def _update_view(self):
-        self._view.update_props(NotesViewProps(self._model.notes))
+        self._view.update_props(NotesViewProps(self._model.notes, self._current_id))
         if len(list(self._model.notes.items())) == 0:
             self._view.currentNote.disable()
         else:
@@ -71,11 +73,10 @@ class NotesController:
             if index < len(list(self._model.notes.keys())) - 1:
                 self._current_id = list(self._model.notes.keys())[index + 1]
                 self._update_view()
-            
+
     def _goOlderNote(self, event):
         if len(list(self._model.notes.keys())) > 0:
             index = list(self._model.notes.keys()).index(self._current_id)
             if index > 0:
                 self._current_id = list(self._model.notes.keys())[index - 1]
                 self._update_view()
-

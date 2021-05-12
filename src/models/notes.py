@@ -22,7 +22,7 @@ class Note:
         self._lastChangeTime = datetime.datetime.now()
         self.saveNote()
 
-    def __del__(self):
+    def deleteFromDisk(self):
         """Delete note from disk."""
         os.remove(os.path.join(NotesModel.notesDirPath, str(self._id)))
 
@@ -87,7 +87,6 @@ class Note:
         """
         self._title = "".join(t.split("\n"))
         self._lastChangeTime = datetime.datetime.now()
-        self.saveNote()
 
     @property
     def text(self):
@@ -105,7 +104,6 @@ class Note:
         """
         self._text = t
         self._lastChangeTime = datetime.datetime.now()
-        self.saveNote()
 
     @property
     def creationTime(self):
@@ -171,6 +169,7 @@ class NotesModel:
         :param id: id of note to be deleted
         """
         if str(id) in self._notes.keys():
+            self._notes[str(id)].deleteFromDisk()
             del self._notes[str(id)]
 
     def updateNote(self, id, title, text):
@@ -184,6 +183,7 @@ class NotesModel:
             self._notes[str(id)].title = title
             self._notes[str(id)].text = text
             self._notes.move_to_end(str(id))
+            self._notes[str(id)].saveNote()
 
     @property
     def notes(self):

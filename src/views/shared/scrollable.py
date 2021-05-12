@@ -55,11 +55,14 @@ class Scrollable(Flexible(tk.LabelFrame)):
             )
         else:
             # Linux
-            def on_scroll(e):
-                self._canvas.yview_scroll(-e.delta / 120, "units")
+            def on_scroll_up(e):
+                self._canvas.yview_scroll(-1, "units")
 
-            self._canvas.bind_all("<Button-4>", on_scroll)
-            self._canvas.bind_all("<Button-5>", on_scroll)
+            def on_scroll_down(e):
+                self._canvas.yview_scroll(1, "units")
+
+            self._canvas.bind_all("<Button-4>", on_scroll_up)
+            self._canvas.bind_all("<Button-5>", on_scroll_down)
 
     def _on_resize(self, _):
         self._canvas.configure(scrollregion=self._container.bbox("all"))
