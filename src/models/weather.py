@@ -57,16 +57,19 @@ class InstantForecast:
     wind_direction: int
 
     @staticmethod
-    def from_api(obj: Dict) -> InstantForecast:
+    def from_api(obj: Dict, tz: datetime.tzinfo) -> InstantForecast:
         """Parse forecast data from API response.
 
         Read more: https://openweathermap.org/api/one-call-api#parameter
 
         :param obj: weather JSON object
+        :param tz: timezone to use for timestamps
         :return: forecast data
         """
         return InstantForecast(
-            ts=datetime.datetime.fromtimestamp(obj["dt"]),
+            ts=datetime.datetime.fromtimestamp(
+                obj["dt"], tz=datetime.timezone.utc
+            ).astimezone(tz),
             kind=WeatherKind.from_api(int(obj["weather"][0]["id"])),
             real_temp=float(obj["temp"]),
             feels_like_temp=float(obj["feels_like"]),
@@ -163,14 +166,18 @@ class WeatherModel:
         res.raise_for_status()
         result = res.json()
 
-        # TODO: написать тесты на парсеры ответа API
+        tz = datetime.timezone(
+            datetime.timedelta(seconds=int(result["timezone_offset"]))
+        )
         self.forecast = WeatherForecast(
-            current=InstantForecast.from_api(result["current"]),
+            current=InstantForecast.from_api(result["current"], tz),
             hourly=list(
-                map(lambda obj: InstantForecast.from_api(obj), result["hourly"])
+                map(lambda obj: InstantForecast.from_api(obj, tz), result["hourly"])
             ),
             daily=list(map(lambda obj: DailyForecast.from_api(obj), result["daily"])),
         )
+        print(self.forecast)
+        print("Forecast state updated")
 
     def fetch_geolocation(self) -> Tuple[float, float]:
         """Get current geolocation.
