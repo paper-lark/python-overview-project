@@ -70,13 +70,13 @@ class NoteHeader(View[NoteHeaderViewProps]):
     """View for note in scrollable view."""
 
     def _highlight(self):
-        self._title.configure(background="white", font="Arial 18 bold")
-        self._lastChangeTime.configure(background="white")
-        self.configure(background="white")
+        self._title.configure(font="TkDefaultFont 18 bold")
 
     def _update(self):
         self._title.configure(text=self.props.title)
-        self._lastChangeTime.configure(text=self.props.lastChangeTime)
+        self._lastChangeTime.configure(
+            text=self.props.lastChangeTime.strftime("%Y %b %d %H:%M")
+        )
         if self.props.currentId == self.props.id:
             self._highlight()
 
@@ -84,8 +84,8 @@ class NoteHeader(View[NoteHeaderViewProps]):
         self._title = Flexible(tk.Label)(self)
         self._lastChangeTime = Flexible(tk.Label)(self)
 
-        self._title.configure(font="Arial 16")
-        self._lastChangeTime.configure(font="Arial 12")
+        self._title.configure(font="TkDefaultFont 16")
+        self._lastChangeTime.configure(font="TkDefaultFont 12")
         self._title.grid(row=0, column=0, sticky="NWS")
         self._lastChangeTime.grid(row=1, column=0, sticky="NWS")
 

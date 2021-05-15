@@ -24,6 +24,7 @@ class NotesController:
             self._current_id = -1
         self._view.bind_all("<Prior>", self._goNewerNote)
         self._view.bind_all("<Next>", self._goOlderNote)
+        self._view.currentNote.bind("<Leave>", lambda e: self._saveNote())
         self._view.newButton.configure(command=self._createNote)
         self._view.saveButton.configure(command=self._saveNote)
         self._view.deleteButton.configure(command=self._deleteNote)
@@ -47,6 +48,8 @@ class NotesController:
             )
 
     def _createNote(self):
+        if len(list(self._model.notes.keys())) > 0:
+            self._saveNote()
         self._model.createNote()
         self._current_id = next(reversed(self._model.notes))
         self._update_view()
@@ -69,6 +72,7 @@ class NotesController:
 
     def _goNewerNote(self, event):
         if len(list(self._model.notes.keys())) > 0:
+            self._saveNote()
             index = list(self._model.notes.keys()).index(self._current_id)
             if index < len(list(self._model.notes.keys())) - 1:
                 self._current_id = list(self._model.notes.keys())[index + 1]
@@ -76,6 +80,7 @@ class NotesController:
 
     def _goOlderNote(self, event):
         if len(list(self._model.notes.keys())) > 0:
+            self._saveNote()
             index = list(self._model.notes.keys()).index(self._current_id)
             if index > 0:
                 self._current_id = list(self._model.notes.keys())[index - 1]

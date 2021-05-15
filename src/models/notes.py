@@ -26,7 +26,7 @@ class Note:
 
     def deleteFromDisk(self):
         """Delete note from disk."""
-        os.remove(os.path.join(NotesModel.notesDirPath, str(self._id)))
+        os.remove(os.path.join(NotesModel.getNotesDirPath(), str(self._id)))
 
     def _setNote(self, title, text, creationTime, lastChangeTime):
         self._title = title
@@ -35,14 +35,14 @@ class Note:
         self._lastChangeTime = lastChangeTime
 
     @staticmethod
-    def loadNote(id):
+    def loadNote(id: str):
         """Load note from disk.
 
         :param id: identifier of note (unique integer)
         :return: loaded note or empty note if loading failed
         """
         try:
-            with open(os.path.join(NotesModel.notesDirPath, str(id)), "r") as f:
+            with open(os.path.join(NotesModel.getNotesDirPath(), str(id)), "r") as f:
                 title = f.readline().split("\n")[0]
                 creationTime = datetime.datetime.fromisoformat(
                     f.readline().split("\n")[0]
@@ -59,7 +59,7 @@ class Note:
 
     def saveNote(self):
         """Save note to disk."""
-        with open(os.path.join(NotesModel.notesDirPath, str(self._id)), "w+") as f:
+        with open(os.path.join(NotesModel.getNotesDirPath(), str(self._id)), "w+") as f:
             f.write(self._title + "\n")
             f.write(self._creationTime.isoformat() + "\n")
             f.write(self._lastChangeTime.isoformat() + "\n")
@@ -127,19 +127,24 @@ class Note:
 class NotesModel:
     """Model for managing notes."""
 
-    notesDirPath = "~/.python-overview-project"
+    _notesDirPath = "~/.Overview"
     if platform.startswith("darwin"):
-        notesDirPath = "~/Library/python-overview-project"
+        _notesDirPath = "~/Library/Overview"
     elif platform.startswith("win32"):
-        notesDirPath = os.getenv("APPDATA")
+        _notesDirPath = os.getenv("APPDATA")
+        _notesDirPath = os.path.join(_notesDirPath, "Overview")
+
+    def getNotesDirPath() -> str:
+        """Get path where notes are stored."""
+        return NotesModel._notesDirPath
 
     def __init__(self):
         """Construct NotesModel."""
         self._notes = OrderedDict()
-        if not os.path.exists(NotesModel.notesDirPath):
-            os.makedirs(NotesModel.notesDirPath)
+        if not os.path.exists(NotesModel._notesDirPath):
+            os.makedirs(NotesModel._notesDirPath)
 
-        for f in os.listdir(NotesModel.notesDirPath):
+        for f in os.listdir(NotesModel._notesDirPath):
             if f.isnumeric():
                 self._notes[f] = Note.loadNote(f)
 
@@ -165,27 +170,30 @@ class NotesModel:
 
         self._notes[str(id)] = Note(id, title, text)
 
-    def deleteNote(self, id):
+    def deleteNote(self, id: str):
         """Delete note by id.
 
         :param id: id of note to be deleted
         """
-        if str(id) in self._notes.keys():
-            self._notes[str(id)].deleteFromDisk()
-            del self._notes[str(id)]
+        if id in self._notes.keys():
+            self._notes[id].deleteFromDisk()
+            del self._notes[id]
 
-    def updateNote(self, id, title, text):
+    def updateNote(self, id: str, title: str, text: str):
         """Update existing note.
 
         :param id: id of note to be updated
         :param title: new title of note
         :param text: new text of note
         """
-        if str(id) in self._notes.keys():
-            self._notes[str(id)].title = title
-            self._notes[str(id)].text = text
-            self._notes.move_to_end(str(id))
-            self._notes[str(id)].saveNote()
+        if id in self._notes.keys():
+            if title != self._notes[id].title:
+                self._notes[id].title = title
+                self._notes.move_to_end(id)
+            if text != self._notes[id].text:
+                self._notes[id].text = text
+                self._notes.move_to_end(id)
+            self._notes[id].saveNote()
 
     @property
     def notes(self):
