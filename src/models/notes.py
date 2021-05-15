@@ -186,14 +186,22 @@ class NotesModel:
         :param title: new title of note
         :param text: new text of note
         """
+        isChanged = False
+
         if id in self._notes.keys():
+
             if title != self._notes[id].title:
+                isChanged = True
                 self._notes[id].title = title
                 self._notes.move_to_end(id)
+
             if text != self._notes[id].text:
+                isChanged = True
                 self._notes[id].text = text
                 self._notes.move_to_end(id)
-            self._notes[id].saveNote()
+            
+            if isChanged:
+                self._notes[id].saveNote()
 
     @property
     def notes(self):

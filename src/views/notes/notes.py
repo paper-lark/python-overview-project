@@ -4,6 +4,7 @@ import datetime
 import tkinter as tk
 from collections import OrderedDict
 from dataclasses import dataclass
+from typing import Callable
 
 from views.shared.flexible import Flexible
 from views.shared.scrollable import Scrollable
@@ -31,6 +32,7 @@ class NoteHeaderViewProps:
     text: str
     creationTime: datetime.datetime
     lastChangeTime: datetime.datetime
+    onClick : Callable
 
 
 @dataclass
@@ -39,6 +41,7 @@ class NotesViewProps:
 
     notesDict: OrderedDict
     currentId: int
+    onClick : Callable
 
 
 class CurrentNote(View[NoteViewProps]):
@@ -80,6 +83,10 @@ class NoteHeader(View[NoteHeaderViewProps]):
         if self.props.currentId == self.props.id:
             self._highlight()
 
+        self.bind("<Button-1>", lambda e: self.props.onClick(self.props.id))
+        self._title.bind("<Button-1>", lambda e: self.props.onClick(self.props.id))
+        self._lastChangeTime.bind("<Button-1>", lambda e: self.props.onClick(self.props.id))
+
     def _render_widgets(self):
         self._title = Flexible(tk.Label)(self)
         self._lastChangeTime = Flexible(tk.Label)(self)
@@ -112,6 +119,7 @@ class NotesView(View[NotesViewProps]):
                     note.text,
                     note.creationTime,
                     note.lastChangeTime,
+                    self.props.onClick
                 )
             )
             self._notesHeaders[id] = header
