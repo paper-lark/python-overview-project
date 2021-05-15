@@ -13,5 +13,13 @@ check:
 	# max length is based on Black defaults
 	poetry run black --check src
 	poetry run isort --line-length 88 --check-only src
-	poetry run flake8 --max-line-length 88 src
+	poetry run flake8 --builtins='_' --max-line-length 88 src
 	poetry run pydocstyle src
+
+l10n-update:
+	poetry run pybabel extract src -o src/locale/base.pot
+	poetry run pybabel update -i src/locale/base.pot -d src/locale
+
+l10n-compile:
+	poetry run pybabel compile -d src/locale
+

@@ -1,0 +1,109 @@
+# Russian (Russia) translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: paperlark@yandex.com\n"
+"POT-Creation-Date: 2021-05-05 21:37+0300\n"
+"PO-Revision-Date: 2021-05-05 20:04+0300\n"
+"Last-Translator: Max Zhuravsky <paperlark@yandex.com>\n"
+"Language: ru_RU\n"
+"Language-Team: ru_RU <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: src/utils/formatters.py:21
+msgid "Sunny"
+msgstr "Солнечно"
+
+#: src/utils/formatters.py:22
+msgid "Rainy"
+msgstr "Дождь"
+
+#: src/utils/formatters.py:23
+msgid "Cloudy"
+msgstr "Облачно"
+
+#: src/utils/formatters.py:24
+msgid "Storm"
+msgstr "Гроза"
+
+#: src/utils/formatters.py:25
+msgid "Drizzle"
+msgstr "Туман"
+
+#: src/utils/formatters.py:26
+msgid "Snow"
+msgstr "Снег"
+
+#: src/utils/formatters.py:57
+msgid "mmHg"
+msgstr "мм"
+
+#: src/utils/formatters.py:63
+msgid "N"
+msgstr "С"
+
+#: src/utils/formatters.py:65
+msgid "NE"
+msgstr "СВ"
+
+#: src/utils/formatters.py:67
+msgid "E"
+msgstr "В"
+
+#: src/utils/formatters.py:69
+msgid "SE"
+msgstr "ЮВ"
+
+#: src/utils/formatters.py:71
+msgid "S"
+msgstr "Ю"
+
+#: src/utils/formatters.py:73
+msgid "SW"
+msgstr "ЮЗ"
+
+#: src/utils/formatters.py:75
+msgid "W"
+msgstr "З"
+
+#: src/utils/formatters.py:77
+msgid "NW"
+msgstr "СЗ"
+
+#: src/views/app/app_bar.py:52
+msgid "Notes"
+msgstr "Заметки"
+
+#: src/views/app/app_bar.py:53
+msgid "Weather"
+msgstr "Погода"
+
+#: src/views/app/app_bar.py:54
+msgid "Calendar"
+msgstr "Календарь"
+
+#: src/views/shared/loading.py:27
+msgid "Loading…"
+msgstr "Загружаем данные…"
+
+#: src/views/weather/current_weather.py:42
+msgid "Humidity"
+msgstr "Влажность"
+
+#: src/views/weather/current_weather.py:45
+msgid "Pressure"
+msgstr "Давление"
+
+#: src/views/weather/current_weather.py:67
+msgid "Refresh"
+msgstr "Обновить"
+

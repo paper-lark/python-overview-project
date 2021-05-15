@@ -127,9 +127,9 @@ class Note:
 class NotesModel:
     """Model for managing notes."""
 
-    _notesDirPath = "~/.Overview"
+    _notesDirPath = os.path.join(os.path.expanduser("~"), ".Overview")
     if platform.startswith("darwin"):
-        _notesDirPath = "~/Library/Overview"
+        _notesDirPath = os.path.join(os.path.expanduser("~"), "Library/Overview")
     elif platform.startswith("win32"):
         _notesDirPath = os.getenv("APPDATA")
         _notesDirPath = os.path.join(_notesDirPath, "Overview")

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """Main module of application."""
-
+import gettext
 import tkinter as tk
 
 from controllers.app import AppController
@@ -9,6 +9,7 @@ from controllers.app import AppController
 
 def main():
     """Application entry point."""
+    gettext.install("messages", localedir="locale")
     root = tk.Tk()
     root.columnconfigure(0, weight=1)
     root.rowconfigure(0, weight=1)
