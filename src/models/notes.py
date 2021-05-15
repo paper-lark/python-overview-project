@@ -199,7 +199,7 @@ class NotesModel:
                 isChanged = True
                 self._notes[id].text = text
                 self._notes.move_to_end(id)
-            
+
             if isChanged:
                 self._notes[id].saveNote()
 
