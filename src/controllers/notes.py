@@ -10,13 +10,13 @@ class NotesController:
     def __init__(self):
         """Construct controller."""
         self._view = None
-        self._model = NotesModel()
 
     def createView(self, master) -> NotesView:
         """Create view for notes tab.
 
         :return: new view for notes
         """
+        self._model = NotesModel()
         self._view = NotesView(master)
         if len(list(self._model.notes.items())) > 0:
             self._current_id = next(reversed(self._model.notes))

@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """MVC controllers."""
+from controllers.calendar import CalendarController
 from controllers.notes import NotesController
 from controllers.weather import WeatherController
 from models.app import AppModel, WidgetKind
 from views.app.app import AppView, AppViewProps
 from views.app.app_bar import AppBarViewProps
-from views.calendar.calendar import CalendarView
 
 
 class AppController:
@@ -22,6 +22,7 @@ class AppController:
         )
         self.__root = root
         self._notes_vc = NotesController()
+        self._calendar_vc = CalendarController()
         self.__root.minsize(200, 400)
         self.view = AppView(master=self.__root)
         self._weather_vc = WeatherController()
@@ -48,7 +49,7 @@ class AppController:
         elif current_tab == WidgetKind.WEATHER:
             return self._weather_vc.create_view(master=master)
         else:
-            return CalendarView(master=master)
+            return self._calendar_vc.createView(master)
 
     def __on_activate_tab(self, tab_index: int):
         self.model.active_tab_index = tab_index

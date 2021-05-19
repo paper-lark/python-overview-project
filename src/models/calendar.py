@@ -2,10 +2,11 @@
 import datetime
 import os
 from collections import OrderedDict
-from sys import platform
 
 from models.app import NotesDirPath
-from models.notes import Note, NotesModel
+from models.notes import Note
+from utils.formatters import format_day, format_day_string
+
 
 class CalendarModel:
     """Class for managing notes with associated days."""
@@ -20,8 +21,10 @@ class CalendarModel:
             if f.isnumeric():
                 note = Note.loadNote(f)
                 try:
-                    noteDate = datetime.date.strptime(note.title, "%d %b %Y")
+                    noteDate = format_day_string(note.title)
                     self._notes[noteDate] = note
+                except ValueError:
+                    continue
 
     def createNote(self, date, text=""):
         """Create new note for given date and store it.
@@ -35,7 +38,7 @@ class CalendarModel:
                 id = i
                 break
 
-        title = date.strftime("%d %b %Y")
+        title = format_day(date)
         self._notes[date] = Note(id, title, text)
 
     def deleteNote(self, date: datetime.date):
@@ -53,16 +56,16 @@ class CalendarModel:
         :param date: date of note to be updated
         :param text: new text of note
         """
-
         if date in self._notes.keys():
-            if text == "":
+            if text.isspace():
                 self.deleteNote(date)
             elif text != self._notes[date].text:
                 self._notes[date].text = text
                 self._notes.move_to_end(date)
                 self._notes[date].saveNote()
         else:
-            self.createNote(date, text)
+            if not text.isspace():
+                self.createNote(date, text)
 
     @property
     def notes(self):

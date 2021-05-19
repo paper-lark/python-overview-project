@@ -2,6 +2,7 @@
 import datetime
 import os
 from collections import OrderedDict
+
 from models.app import NotesDirPath
 
 
@@ -26,7 +27,7 @@ class Note:
 
     def deleteFromDisk(self):
         """Delete note from disk."""
-        os.remove(os.path.join(NotesModel.getNotesDirPath(), str(self._id)))
+        os.remove(os.path.join(NotesDirPath.getNotesDirPath(), str(self._id)))
 
     def _setNote(self, title, text, creationTime, lastChangeTime):
         self._title = title
@@ -59,7 +60,9 @@ class Note:
 
     def saveNote(self):
         """Save note to disk."""
-        with open(os.path.join(NotesDirPath.getNotesDirPath(), str(self._id)), "w+") as f:
+        with open(
+            os.path.join(NotesDirPath.getNotesDirPath(), str(self._id)), "w+"
+        ) as f:
             f.write(self._title + "\n")
             f.write(self._creationTime.isoformat() + "\n")
             f.write(self._lastChangeTime.isoformat() + "\n")
