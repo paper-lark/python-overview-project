@@ -2,7 +2,7 @@
 import datetime
 import os
 from collections import OrderedDict
-from sys import platform
+from models.app import NotesDirPath
 
 
 class Note:
@@ -42,7 +42,7 @@ class Note:
         :return: loaded note or empty note if loading failed
         """
         try:
-            with open(os.path.join(NotesModel.getNotesDirPath(), str(id)), "r") as f:
+            with open(os.path.join(NotesDirPath.getNotesDirPath(), str(id)), "r") as f:
                 title = f.readline().split("\n")[0]
                 creationTime = datetime.datetime.fromisoformat(
                     f.readline().split("\n")[0]
@@ -59,7 +59,7 @@ class Note:
 
     def saveNote(self):
         """Save note to disk."""
-        with open(os.path.join(NotesModel.getNotesDirPath(), str(self._id)), "w+") as f:
+        with open(os.path.join(NotesDirPath.getNotesDirPath(), str(self._id)), "w+") as f:
             f.write(self._title + "\n")
             f.write(self._creationTime.isoformat() + "\n")
             f.write(self._lastChangeTime.isoformat() + "\n")
@@ -127,24 +127,13 @@ class Note:
 class NotesModel:
     """Model for managing notes."""
 
-    _notesDirPath = os.path.join(os.path.expanduser("~"), ".Overview")
-    if platform.startswith("darwin"):
-        _notesDirPath = os.path.join(os.path.expanduser("~"), "Library/Overview")
-    elif platform.startswith("win32"):
-        _notesDirPath = os.getenv("APPDATA")
-        _notesDirPath = os.path.join(_notesDirPath, "Overview")
-
-    def getNotesDirPath() -> str:
-        """Get path where notes are stored."""
-        return NotesModel._notesDirPath
-
     def __init__(self):
         """Construct NotesModel."""
         self._notes = OrderedDict()
-        if not os.path.exists(NotesModel._notesDirPath):
-            os.makedirs(NotesModel._notesDirPath)
+        if not os.path.exists(NotesDirPath.getNotesDirPath()):
+            os.makedirs(NotesDirPath.getNotesDirPath())
 
-        for f in os.listdir(NotesModel._notesDirPath):
+        for f in os.listdir(NotesDirPath.getNotesDirPath()):
             if f.isnumeric():
                 self._notes[f] = Note.loadNote(f)
 
