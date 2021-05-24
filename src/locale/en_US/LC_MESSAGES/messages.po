@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: paperlark@yandex.com\n"
-"POT-Creation-Date: 2021-05-05 21:37+0300\n"
+"POT-Creation-Date: 2021-05-24 18:28+0300\n"
 "PO-Revision-Date: 2021-05-05 20:02+0300\n"
 "Last-Translator: Max Zhuravsky <paperlark@yandex.com>\n"
 "Language: en_US\n"
@@ -42,39 +42,39 @@ msgstr "Drizzle"
 msgid "Snow"
 msgstr "Snow"
 
-#: src/utils/formatters.py:57
+#: src/utils/formatters.py:59
 msgid "mmHg"
 msgstr "mmHg"
 
-#: src/utils/formatters.py:63
+#: src/utils/formatters.py:65
 msgid "N"
 msgstr "N"
 
-#: src/utils/formatters.py:65
+#: src/utils/formatters.py:67
 msgid "NE"
 msgstr "NE"
 
-#: src/utils/formatters.py:67
+#: src/utils/formatters.py:69
 msgid "E"
 msgstr "E"
 
-#: src/utils/formatters.py:69
+#: src/utils/formatters.py:71
 msgid "SE"
 msgstr "SE"
 
-#: src/utils/formatters.py:71
+#: src/utils/formatters.py:73
 msgid "S"
 msgstr "S"
 
-#: src/utils/formatters.py:73
+#: src/utils/formatters.py:75
 msgid "SW"
 msgstr "SW"
 
-#: src/utils/formatters.py:75
+#: src/utils/formatters.py:77
 msgid "W"
 msgstr "W"
 
-#: src/utils/formatters.py:77
+#: src/utils/formatters.py:79
 msgid "NW"
 msgstr "NW"
 
@@ -90,6 +90,18 @@ msgstr "Weather"
 msgid "Calendar"
 msgstr "Calendar"
 
+#: src/views/notes/notes.py:138
+msgid "New"
+msgstr "New"
+
+#: src/views/notes/notes.py:140
+msgid "Save"
+msgstr "Save"
+
+#: src/views/notes/notes.py:142
+msgid "Delete"
+msgstr "Delete"
+
 #: src/views/shared/loading.py:27
 msgid "Loading…"
 msgstr "Loading…"
@@ -102,7 +114,7 @@ msgstr "Humidity"
 msgid "Pressure"
 msgstr "Pressure"
 
-#: src/views/weather/current_weather.py:67
+#: src/views/weather/current_weather.py:70
 msgid "Refresh"
 msgstr "Refresh"
 
