@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: paperlark@yandex.com\n"
-"POT-Creation-Date: 2021-05-27 21:06+0300\n"
+"POT-Creation-Date: 2021-05-27 22:32+0300\n"
 "PO-Revision-Date: 2021-05-05 20:04+0300\n"
 "Last-Translator: Max Zhuravsky <paperlark@yandex.com>\n"
 "Language: ru_RU\n"
@@ -83,51 +83,51 @@ msgstr "З"
 msgid "NW"
 msgstr "СЗ"
 
-#: src/utils/formatters.py:100
+#: src/utils/utils.py:40
 msgid "Jan"
 msgstr "Январь"
 
-#: src/utils/formatters.py:101
+#: src/utils/utils.py:41
 msgid "Feb"
 msgstr "Февраль"
 
-#: src/utils/formatters.py:102
+#: src/utils/utils.py:42
 msgid "Mar"
 msgstr "Март"
 
-#: src/utils/formatters.py:103
+#: src/utils/utils.py:43
 msgid "Apr"
 msgstr "Апрель"
 
-#: src/utils/formatters.py:104
+#: src/utils/utils.py:44
 msgid "May"
 msgstr "Май"
 
-#: src/utils/formatters.py:105
+#: src/utils/utils.py:45
 msgid "Jun"
 msgstr "Июнь"
 
-#: src/utils/formatters.py:106
+#: src/utils/utils.py:46
 msgid "Jul"
 msgstr "Июль"
 
-#: src/utils/formatters.py:107
+#: src/utils/utils.py:47
 msgid "Aug"
 msgstr "Август"
 
-#: src/utils/formatters.py:108
+#: src/utils/utils.py:48
 msgid "Sep"
 msgstr "Сентябрь"
 
-#: src/utils/formatters.py:109
+#: src/utils/utils.py:49
 msgid "Oct"
 msgstr "Октябрь"
 
-#: src/utils/formatters.py:110
+#: src/utils/utils.py:50
 msgid "Nov"
 msgstr "Ноябрь"
 
-#: src/utils/formatters.py:111
+#: src/utils/utils.py:51
 msgid "Dec"
 msgstr "Декабрь"
 

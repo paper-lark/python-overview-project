@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 from models.app import NotesDirPath
 from models.notes import Note
-from utils.formatters import format_day, format_day_string
+from utils.utils import getDatetimeFromDay, getDayMonthYear
 
 
 class CalendarModel:
@@ -21,7 +21,7 @@ class CalendarModel:
             if f.isnumeric():
                 note = Note.loadNote(f)
                 try:
-                    noteDate = format_day_string(note.title)
+                    noteDate = getDatetimeFromDay(note.title)
                     self._notes[noteDate] = note
                 except ValueError:
                     continue
@@ -38,7 +38,7 @@ class CalendarModel:
                 id = i
                 break
 
-        title = format_day(date)
+        title = getDayMonthYear(date)
         self._notes[date] = Note(id, title, text)
 
     def deleteNote(self, date: datetime.date):

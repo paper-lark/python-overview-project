@@ -1,7 +1,7 @@
 """Notes tab controllers."""
 
 from models.notes import NotesModel
-from utils.formatters import format_day_string
+from utils.utils import getDatetimeFromDay
 from views.notes.notes import NotesView, NotesViewProps, NoteViewProps
 
 
@@ -60,7 +60,7 @@ class NotesController:
     def _saveNote(self):
         if self._view.currentNote.props:
             try:
-                format_day_string(self._view.currentNote.props.title)
+                getDatetimeFromDay(self._view.currentNote.props.title)
                 self._model.updateNote(
                     self._view.currentNote.props.id,
                     self._view.currentNote.props.title,

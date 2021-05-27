@@ -6,8 +6,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from typing import Callable
 
-from utils.formatters import format_day_string
-from utils.utils import translateMonth
+from utils.utils import getDatetimeFromDay, translateMonth
 from views.shared.flexible import Flexible
 from views.shared.scrollable import Scrollable
 from views.shared.view import View
@@ -58,7 +57,7 @@ class CurrentNote(View[NoteViewProps]):
         self.title.grid()
         self.text.grid()
         try:
-            format_day_string(self.props.title)
+            getDatetimeFromDay(self.props.title)
             self.title.delete("0", "end")
             self.title.insert("0", translateMonth(self.props.title))
             self.title.configure(state="readonly")
@@ -86,7 +85,7 @@ class NoteHeader(View[NoteHeaderViewProps]):
 
     def _update(self):
         try:
-            format_day_string(self.props.title)
+            getDatetimeFromDay(self.props.title)
             self._title.configure(text=translateMonth(self.props.title))
         except ValueError:
             self._title.configure(text=self.props.title)

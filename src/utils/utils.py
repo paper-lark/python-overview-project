@@ -56,3 +56,18 @@ def translateMonth(dt_string: str) -> str:
         res = " ".join([res, *(dt_string.split(" ")[2:])])
 
     return res
+
+
+def getDayMonthYear(day: datetime.date) -> str:
+    """Format date."""
+    return day.strftime("%d %b %Y")
+
+
+def getMonthYear(day: datetime.date) -> str:
+    """Format date to get month and year only."""
+    return day.strftime("%Y %b")
+
+
+def getDatetimeFromDay(day_string: str) -> datetime.date:
+    """Format date string."""
+    return datetime.datetime.strptime(day_string, "%d %b %Y").date()

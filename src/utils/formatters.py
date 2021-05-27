@@ -77,18 +77,3 @@ def format_direction(direction_in_degrees: float) -> str:
         return _("W")
     else:
         return _("NW")
-
-
-def format_day(day: datetime.date) -> str:
-    """Format date."""
-    return day.strftime("%d %b %Y")
-
-
-def format_month_year(day: datetime.date) -> str:
-    """Format date to get month and year only."""
-    return day.strftime("%Y %b")
-
-
-def format_day_string(day_string: str) -> datetime.date:
-    """Format date string."""
-    return datetime.datetime.strptime(day_string, "%d %b %Y").date()
