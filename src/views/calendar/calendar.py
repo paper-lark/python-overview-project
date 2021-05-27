@@ -6,8 +6,8 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from typing import Callable
 
-from utils.formatters import format_month_EN, format_month_year
-from utils.utils import getNumberOfDays
+from utils.formatters import format_month_year
+from utils.utils import getNumberOfDays, translateMonth
 from views.shared.flexible import Flexible
 from views.shared.view import View
 
@@ -68,7 +68,7 @@ class CalendarView(View[CalendarViewProps]):
         self.daysButtons = []
 
         self.currentMonth.configure(
-            text=format_month_EN(format_month_year(self.props.currentDate))
+            text=translateMonth(format_month_year(self.props.currentDate))
         )
 
         numberOfDays = getNumberOfDays(self.props.currentDate)

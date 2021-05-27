@@ -32,3 +32,27 @@ def getFirstDayOfPrevMonth(day: datetime.date) -> datetime.date:
         prevMonth = 12
 
     return datetime.date(prevYear, prevMonth, 1)
+
+
+def translateMonth(dt_string: str) -> str:
+    """Get datetime str with localized month."""
+    monthTranslated = {
+        "Jan": _("Jan"),
+        "Feb": _("Feb"),
+        "Mar": _("Mar"),
+        "Apr": _("Apr"),
+        "May": _("May"),
+        "Jun": _("Jun"),
+        "Jul": _("Jul"),
+        "Aug": _("Aug"),
+        "Sep": _("Sep"),
+        "Oct": _("Oct"),
+        "Nov": _("Nov"),
+        "Dec": _("Dec"),
+    }[dt_string.split(" ")[1]]
+
+    res = " ".join([dt_string.split(" ")[0], monthTranslated])
+    if len(dt_string.split(" ")) > 2:
+        res = " ".join([res, *(dt_string.split(" ")[2:])])
+
+    return res

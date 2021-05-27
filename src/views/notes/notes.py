@@ -6,7 +6,8 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from typing import Callable
 
-from utils.formatters import format_day_string, format_month_EN
+from utils.formatters import format_day_string
+from utils.utils import translateMonth
 from views.shared.flexible import Flexible
 from views.shared.scrollable import Scrollable
 from views.shared.view import View
@@ -59,7 +60,7 @@ class CurrentNote(View[NoteViewProps]):
         try:
             format_day_string(self.props.title)
             self.title.delete("0", "end")
-            self.title.insert("0", format_month_EN(self.props.title))
+            self.title.insert("0", translateMonth(self.props.title))
             self.title.configure(state="readonly")
         except ValueError:
             self.title.configure(state="normal")
@@ -86,11 +87,11 @@ class NoteHeader(View[NoteHeaderViewProps]):
     def _update(self):
         try:
             format_day_string(self.props.title)
-            self._title.configure(text=format_month_EN(self.props.title))
+            self._title.configure(text=translateMonth(self.props.title))
         except ValueError:
             self._title.configure(text=self.props.title)
         self._lastChangeTime.configure(
-            text=format_month_EN(self.props.lastChangeTime.strftime("%Y %b %d %H:%M"))
+            text=translateMonth(self.props.lastChangeTime.strftime("%Y %b %d %H:%M"))
         )
         if self.props.currentId == self.props.id:
             self._highlight()
