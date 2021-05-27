@@ -9,7 +9,7 @@ from models.app import NotesDirPath
 class Note:
     """Class for storing note."""
 
-    def __init__(self, id, title="Untitled", text="", savePrevious=False):
+    def __init__(self, id, title="", text="", savePrevious=False):
         """Construct new note model.
 
         :param id: unique integer - number of note
@@ -18,7 +18,10 @@ class Note:
         :param savePrevious: True if note with this id already exists
         """
         self._id = str(id)
-        self._title = title
+        if title == "":
+            self._title = _("Untitled")
+        else:
+            self._title = title
         self._text = text
         self._creationTime = datetime.datetime.now()
         self._lastChangeTime = datetime.datetime.now()
@@ -148,7 +151,7 @@ class NotesModel:
             sorted(self._notes.items(), key=lambda x: x[1].lastChangeTime)
         )
 
-    def createNote(self, title="Untitled", text=""):
+    def createNote(self, title="", text=""):
         """Create new note and store it.
 
         :param title: title of new note
@@ -160,7 +163,10 @@ class NotesModel:
                 id = i
                 break
 
-        self._notes[str(id)] = Note(id, title, text)
+        if title == "":
+            self._notes[str(id)] = Note(id, _("Untitled"), text)
+        else:
+            self._notes[str(id)] = Note(id, title, text)
 
     def deleteNote(self, id: str):
         """Delete note by id.

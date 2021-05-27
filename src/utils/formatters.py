@@ -86,9 +86,33 @@ def format_day(day: datetime.date) -> str:
 
 def format_month_year(day: datetime.date) -> str:
     """Format date to get month and year only."""
-    return day.strftime("%b %Y")
+    return day.strftime("%Y %b")
 
 
 def format_day_string(day_string: str) -> datetime.date:
     """Format date string."""
     return datetime.datetime.strptime(day_string, "%d %b %Y").date()
+
+
+def format_month_EN(dt_string: str) -> str:
+    """Get datetime str with localized month."""
+    monthTranslated = {
+        "Jan": _("Jan"),
+        "Feb": _("Feb"),
+        "Mar": _("Mar"),
+        "Apr": _("Apr"),
+        "May": _("May"),
+        "Jun": _("Jun"),
+        "Jul": _("Jul"),
+        "Aug": _("Aug"),
+        "Sep": _("Sep"),
+        "Oct": _("Oct"),
+        "Nov": _("Nov"),
+        "Dec": _("Dec"),
+    }[dt_string.split(" ")[1]]
+
+    res = " ".join([dt_string.split(" ")[0], monthTranslated])
+    if len(dt_string.split(" ")) > 2:
+        res = " ".join([res, *(dt_string.split(" ")[2:])])
+
+    return res

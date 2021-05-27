@@ -6,6 +6,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from typing import Callable
 
+from utils.formatters import format_day_string, format_month_EN
 from views.shared.flexible import Flexible
 from views.shared.scrollable import Scrollable
 from views.shared.view import View
@@ -55,8 +56,15 @@ class CurrentNote(View[NoteViewProps]):
     def _update(self):
         self.title.grid()
         self.text.grid()
-        self.title.delete("0", "end")
-        self.title.insert("0", self.props.title)
+        try:
+            format_day_string(self.props.title)
+            self.title.delete("0", "end")
+            self.title.insert("0", format_month_EN(self.props.title))
+            self.title.configure(state="readonly")
+        except ValueError:
+            self.title.configure(state="normal")
+            self.title.delete("0", "end")
+            self.title.insert("0", self.props.title)
         self.text.delete("1.0", "end")
         self.text.insert("1.0", self.props.text[:-1])
 
@@ -76,9 +84,13 @@ class NoteHeader(View[NoteHeaderViewProps]):
         self._title.configure(font="TkDefaultFont 18 bold")
 
     def _update(self):
-        self._title.configure(text=self.props.title)
+        try:
+            format_day_string(self.props.title)
+            self._title.configure(text=format_month_EN(self.props.title))
+        except ValueError:
+            self._title.configure(text=self.props.title)
         self._lastChangeTime.configure(
-            text=self.props.lastChangeTime.strftime("%Y %b %d %H:%M")
+            text=format_month_EN(self.props.lastChangeTime.strftime("%Y %b %d %H:%M"))
         )
         if self.props.currentId == self.props.id:
             self._highlight()

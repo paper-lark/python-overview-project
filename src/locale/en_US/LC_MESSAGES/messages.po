@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: paperlark@yandex.com\n"
-"POT-Creation-Date: 2021-05-24 18:28+0300\n"
+"POT-Creation-Date: 2021-05-27 21:06+0300\n"
 "PO-Revision-Date: 2021-05-05 20:02+0300\n"
 "Last-Translator: Max Zhuravsky <paperlark@yandex.com>\n"
 "Language: en_US\n"
@@ -17,6 +17,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
+
+#: src/models/notes.py:22 src/models/notes.py:167
+msgid "Untitled"
+msgstr "Untitled"
 
 #: src/utils/formatters.py:21
 msgid "Sunny"
@@ -78,6 +82,54 @@ msgstr "W"
 msgid "NW"
 msgstr "NW"
 
+#: src/utils/formatters.py:100
+msgid "Jan"
+msgstr "January"
+
+#: src/utils/formatters.py:101
+msgid "Feb"
+msgstr "February"
+
+#: src/utils/formatters.py:102
+msgid "Mar"
+msgstr "March"
+
+#: src/utils/formatters.py:103
+msgid "Apr"
+msgstr "April"
+
+#: src/utils/formatters.py:104
+msgid "May"
+msgstr "May"
+
+#: src/utils/formatters.py:105
+msgid "Jun"
+msgstr "June"
+
+#: src/utils/formatters.py:106
+msgid "Jul"
+msgstr "July"
+
+#: src/utils/formatters.py:107
+msgid "Aug"
+msgstr "August"
+
+#: src/utils/formatters.py:108
+msgid "Sep"
+msgstr "September"
+
+#: src/utils/formatters.py:109
+msgid "Oct"
+msgstr "October"
+
+#: src/utils/formatters.py:110
+msgid "Nov"
+msgstr "November"
+
+#: src/utils/formatters.py:111
+msgid "Dec"
+msgstr "December"
+
 #: src/views/app/app_bar.py:52
 msgid "Notes"
 msgstr "Notes"
@@ -90,15 +142,15 @@ msgstr "Weather"
 msgid "Calendar"
 msgstr "Calendar"
 
-#: src/views/notes/notes.py:138
+#: src/views/notes/notes.py:150
 msgid "New"
 msgstr "New"
 
-#: src/views/notes/notes.py:140
+#: src/views/notes/notes.py:152
 msgid "Save"
 msgstr "Save"
 
-#: src/views/notes/notes.py:142
+#: src/views/notes/notes.py:154
 msgid "Delete"
 msgstr "Delete"
 
