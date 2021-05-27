@@ -1,7 +1,7 @@
 """Notes tab controllers."""
 
 from models.notes import NotesModel
-from utils.utils import getDatetimeFromDay
+from utils.dates import getDatetimeFromDay
 from views.notes.notes import NotesView, NotesViewProps, NoteViewProps
 
 

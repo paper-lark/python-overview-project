@@ -3,7 +3,7 @@
 import datetime
 
 from models.calendar import CalendarModel
-from utils.utils import getFirstDayOfNextMonth, getFirstDayOfPrevMonth
+from utils.dates import getFirstDayOfNextMonth, getFirstDayOfPrevMonth
 from views.calendar.calendar import CalendarView, CalendarViewProps
 
 

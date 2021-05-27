@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 from models.app import NotesDirPath
 from models.notes import Note
-from utils.utils import getDatetimeFromDay, getDayMonthYear
+from utils.dates import getDatetimeFromDay, getDayMonthYear
 
 
 class CalendarModel:

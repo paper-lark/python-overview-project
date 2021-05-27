@@ -6,7 +6,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from typing import Callable
 
-from utils.utils import getMonthYear, getNumberOfDays, translateMonth
+from utils.dates import getMonthYear, getNumberOfDays, translateMonth
 from views.shared.flexible import Flexible
 from views.shared.view import View
 
