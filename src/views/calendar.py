@@ -13,7 +13,7 @@ from views.shared.view import View
 
 @dataclass
 class CalendarViewProps:
-    """Props for calendar view."""
+    """Props for :class:`CalendarView`."""
 
     notesDict: OrderedDict
     currentDate: datetime.date
@@ -22,7 +22,7 @@ class CalendarViewProps:
 
 @dataclass
 class CalendarDayButtonProps:
-    """Props for calendar day button."""
+    """Props for :class:`CalendarDayButton`."""
 
     currentDay: int
     onClick: Callable

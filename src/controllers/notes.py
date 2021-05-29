@@ -2,7 +2,7 @@
 
 from models.notes import NotesModel
 from utils.dates import getDatetimeFromDay
-from views.notes.notes import NotesView, NotesViewProps, NoteViewProps
+from views.notes import NotesView, NotesViewProps, NoteViewProps
 
 
 class NotesController:
