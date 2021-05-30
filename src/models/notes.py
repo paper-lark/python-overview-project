@@ -2,13 +2,14 @@
 import datetime
 import os
 from collections import OrderedDict
-from sys import platform
+
+from models.app import NotesDirPath
 
 
 class Note:
     """Class for storing note."""
 
-    def __init__(self, id, title="Untitled", text="", savePrevious=False):
+    def __init__(self, id, title="", text="", savePrevious=False):
         """Construct new note model.
 
         :param id: unique integer - number of note
@@ -17,7 +18,10 @@ class Note:
         :param savePrevious: True if note with this id already exists
         """
         self._id = str(id)
-        self._title = title
+        if title == "":
+            self._title = _("Untitled")
+        else:
+            self._title = title
         self._text = text
         self._creationTime = datetime.datetime.now()
         self._lastChangeTime = datetime.datetime.now()
@@ -26,7 +30,7 @@ class Note:
 
     def deleteFromDisk(self):
         """Delete note from disk."""
-        os.remove(os.path.join(NotesModel.getNotesDirPath(), str(self._id)))
+        os.remove(os.path.join(NotesDirPath.getNotesDirPath(), str(self._id)))
 
     def _setNote(self, title, text, creationTime, lastChangeTime):
         self._title = title
@@ -42,7 +46,7 @@ class Note:
         :return: loaded note or empty note if loading failed
         """
         try:
-            with open(os.path.join(NotesModel.getNotesDirPath(), str(id)), "r") as f:
+            with open(os.path.join(NotesDirPath.getNotesDirPath(), str(id)), "r") as f:
                 title = f.readline().split("\n")[0]
                 creationTime = datetime.datetime.fromisoformat(
                     f.readline().split("\n")[0]
@@ -59,7 +63,9 @@ class Note:
 
     def saveNote(self):
         """Save note to disk."""
-        with open(os.path.join(NotesModel.getNotesDirPath(), str(self._id)), "w+") as f:
+        with open(
+            os.path.join(NotesDirPath.getNotesDirPath(), str(self._id)), "w+"
+        ) as f:
             f.write(self._title + "\n")
             f.write(self._creationTime.isoformat() + "\n")
             f.write(self._lastChangeTime.isoformat() + "\n")
@@ -127,24 +133,13 @@ class Note:
 class NotesModel:
     """Model for managing notes."""
 
-    _notesDirPath = os.path.join(os.path.expanduser("~"), ".Overview")
-    if platform.startswith("darwin"):
-        _notesDirPath = os.path.join(os.path.expanduser("~"), "Library/Overview")
-    elif platform.startswith("win32"):
-        _notesDirPath = os.getenv("APPDATA")
-        _notesDirPath = os.path.join(_notesDirPath, "Overview")
-
-    def getNotesDirPath() -> str:
-        """Get path where notes are stored."""
-        return NotesModel._notesDirPath
-
     def __init__(self):
         """Construct NotesModel."""
         self._notes = OrderedDict()
-        if not os.path.exists(NotesModel._notesDirPath):
-            os.makedirs(NotesModel._notesDirPath)
+        if not os.path.exists(NotesDirPath.getNotesDirPath()):
+            os.makedirs(NotesDirPath.getNotesDirPath())
 
-        for f in os.listdir(NotesModel._notesDirPath):
+        for f in os.listdir(NotesDirPath.getNotesDirPath()):
             if f.isnumeric():
                 self._notes[f] = Note.loadNote(f)
 
@@ -156,7 +151,7 @@ class NotesModel:
             sorted(self._notes.items(), key=lambda x: x[1].lastChangeTime)
         )
 
-    def createNote(self, title="Untitled", text=""):
+    def createNote(self, title="", text=""):
         """Create new note and store it.
 
         :param title: title of new note
@@ -168,7 +163,10 @@ class NotesModel:
                 id = i
                 break
 
-        self._notes[str(id)] = Note(id, title, text)
+        if title == "":
+            self._notes[str(id)] = Note(id, _("Untitled"), text)
+        else:
+            self._notes[str(id)] = Note(id, title, text)
 
     def deleteNote(self, id: str):
         """Delete note by id.

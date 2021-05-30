@@ -6,6 +6,7 @@ from collections import OrderedDict
 from dataclasses import dataclass
 from typing import Callable
 
+from utils.dates import getDatetimeFromDay, translateMonth
 from views.shared.flexible import Flexible
 from views.shared.scrollable import Scrollable
 from views.shared.view import View
@@ -55,8 +56,15 @@ class CurrentNote(View[NoteViewProps]):
     def _update(self):
         self.title.grid()
         self.text.grid()
-        self.title.delete("0", "end")
-        self.title.insert("0", self.props.title)
+        try:
+            getDatetimeFromDay(self.props.title)
+            self.title.delete("0", "end")
+            self.title.insert("0", translateMonth(self.props.title))
+            self.title.configure(state="readonly")
+        except ValueError:
+            self.title.configure(state="normal")
+            self.title.delete("0", "end")
+            self.title.insert("0", self.props.title)
         self.text.delete("1.0", "end")
         self.text.insert("1.0", self.props.text[:-1])
 
@@ -76,9 +84,13 @@ class NoteHeader(View[NoteHeaderViewProps]):
         self._title.configure(font="TkDefaultFont 18 bold")
 
     def _update(self):
-        self._title.configure(text=self.props.title)
+        try:
+            getDatetimeFromDay(self.props.title)
+            self._title.configure(text=translateMonth(self.props.title))
+        except ValueError:
+            self._title.configure(text=self.props.title)
         self._lastChangeTime.configure(
-            text=self.props.lastChangeTime.strftime("%Y %b %d %H:%M")
+            text=translateMonth(self.props.lastChangeTime.strftime("%Y %b %d %H:%M"))
         )
         if self.props.currentId == self.props.id:
             self._highlight()
@@ -135,11 +147,11 @@ class NotesView(View[NotesViewProps]):
         self.columnconfigure(2, weight=0)
         self.columnconfigure(3, weight=1)
 
-        self.newButton = Flexible(tk.Button)(self, text="New")
+        self.newButton = Flexible(tk.Button)(self, text=_("New"))
         self.newButton.grid(column=0, row=0, sticky="NEWS")
-        self.saveButton = Flexible(tk.Button)(self, text="Save")
+        self.saveButton = Flexible(tk.Button)(self, text=_("Save"))
         self.saveButton.grid(column=1, row=0, sticky="NEWS")
-        self.deleteButton = Flexible(tk.Button)(self, text="Delete")
+        self.deleteButton = Flexible(tk.Button)(self, text=_("Delete"))
         self.deleteButton.grid(column=2, row=0, sticky="NEWS")
         self.notesList = Scrollable(self)
         self.notesList.grid(column=0, row=1, columnspan=3, sticky="NEWS")

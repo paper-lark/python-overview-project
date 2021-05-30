@@ -1,6 +1,7 @@
 """Notes tab controllers."""
 
 from models.notes import NotesModel
+from utils.dates import getDatetimeFromDay
 from views.notes.notes import NotesView, NotesViewProps, NoteViewProps
 
 
@@ -10,13 +11,13 @@ class NotesController:
     def __init__(self):
         """Construct controller."""
         self._view = None
-        self._model = NotesModel()
 
     def createView(self, master) -> NotesView:
         """Create view for notes tab.
 
         :return: new view for notes
         """
+        self._model = NotesModel()
         self._view = NotesView(master)
         if len(list(self._model.notes.items())) > 0:
             self._current_id = next(reversed(self._model.notes))
@@ -58,11 +59,19 @@ class NotesController:
 
     def _saveNote(self):
         if self._view.currentNote.props:
-            self._model.updateNote(
-                self._view.currentNote.props.id,
-                self._view.currentNote.title.get(),
-                self._view.currentNote.text.get("1.0", "end"),
-            )
+            try:
+                getDatetimeFromDay(self._view.currentNote.props.title)
+                self._model.updateNote(
+                    self._view.currentNote.props.id,
+                    self._view.currentNote.props.title,
+                    self._view.currentNote.text.get("1.0", "end"),
+                )
+            except ValueError:
+                self._model.updateNote(
+                    self._view.currentNote.props.id,
+                    self._view.currentNote.title.get(),
+                    self._view.currentNote.text.get("1.0", "end"),
+                )
         self._update_view()
 
     def _deleteNote(self):
