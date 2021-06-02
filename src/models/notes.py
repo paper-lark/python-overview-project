@@ -3,7 +3,7 @@ import datetime
 import os
 from collections import OrderedDict
 
-from models.app import NotesDirPath
+from utils.configuration import ConfigurationUtils
 
 
 class Note:
@@ -30,7 +30,7 @@ class Note:
 
     def deleteFromDisk(self):
         """Delete note from disk."""
-        os.remove(os.path.join(NotesDirPath.getNotesDirPath(), str(self._id)))
+        os.remove(os.path.join(ConfigurationUtils.getNotesDirPath(), str(self._id)))
 
     def _setNote(self, title, text, creationTime, lastChangeTime):
         self._title = title
@@ -46,7 +46,9 @@ class Note:
         :return: loaded note or empty note if loading failed
         """
         try:
-            with open(os.path.join(NotesDirPath.getNotesDirPath(), str(id)), "r") as f:
+            with open(
+                os.path.join(ConfigurationUtils.getNotesDirPath(), str(id)), "r"
+            ) as f:
                 title = f.readline().split("\n")[0]
                 creationTime = datetime.datetime.fromisoformat(
                     f.readline().split("\n")[0]
@@ -64,7 +66,7 @@ class Note:
     def saveNote(self):
         """Save note to disk."""
         with open(
-            os.path.join(NotesDirPath.getNotesDirPath(), str(self._id)), "w+"
+            os.path.join(ConfigurationUtils.getNotesDirPath(), str(self._id)), "w+"
         ) as f:
             f.write(self._title + "\n")
             f.write(self._creationTime.isoformat() + "\n")
@@ -136,10 +138,10 @@ class NotesModel:
     def __init__(self):
         """Construct NotesModel."""
         self._notes = OrderedDict()
-        if not os.path.exists(NotesDirPath.getNotesDirPath()):
-            os.makedirs(NotesDirPath.getNotesDirPath())
+        if not os.path.exists(ConfigurationUtils.getNotesDirPath()):
+            os.makedirs(ConfigurationUtils.getNotesDirPath())
 
-        for f in os.listdir(NotesDirPath.getNotesDirPath()):
+        for f in os.listdir(ConfigurationUtils.getNotesDirPath()):
             if f.isnumeric():
                 self._notes[f] = Note.loadNote(f)
 
