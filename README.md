@@ -44,7 +44,8 @@
 
 ## Документация
 
-Пользовательская документация расположена [здесь](docs/index.md).
+Пользовательская документация: [ссылка](https://paper-lark.github.io/python-overview-project/)
 
-Программная документация создается командой make sphinx-update. После этого она будет находиться в каталоге sphinx/build/html.
-
+Программная документация:
+1. запустить `make sphinx-update`
+2. открыть в браузере файл sphinx/build/html/index.html
