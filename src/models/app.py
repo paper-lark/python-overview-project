@@ -2,7 +2,6 @@
 """App model."""
 from dataclasses import dataclass
 from enum import Enum
-from sys import platform
 from typing import List
 
 

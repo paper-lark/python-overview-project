@@ -4,6 +4,14 @@ src.utils namespace
 Submodules
 ----------
 
+src.utils.configuration module
+------------------------------
+
+.. automodule:: src.utils.configuration
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 src.utils.dates module
 ----------------------
 

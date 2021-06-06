@@ -3,6 +3,7 @@
 import os
 from sys import platform
 
+
 class ConfigurationUtils:
     """Class for holding program configuration e.g. notes path on disk."""
 
@@ -15,4 +16,4 @@ class ConfigurationUtils:
 
     def getNotesDirPath() -> str:
         """Get path where notes are stored."""
-        return NotesDirPath._notesDirPath
+        return ConfigurationUtils._notesDirPath

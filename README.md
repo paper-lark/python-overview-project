@@ -42,3 +42,8 @@
 ##### Заметки
 ![Notes design draft](docs/src/Note%20widget.png)
 
+## Документация
+
+Пользовательская документация расположена [здесь](MANUAL.md).
+Программная документация расположена [здесь](sphinx/build/html/index.html).
+
