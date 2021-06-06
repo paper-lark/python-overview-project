@@ -14,7 +14,7 @@ from views.shared.view import View
 
 @dataclass
 class NoteViewProps:
-    """Props for note view."""
+    """Props for :class:`CurrentNote`."""
 
     id: int
     title: str
@@ -25,7 +25,7 @@ class NoteViewProps:
 
 @dataclass
 class NoteHeaderViewProps:
-    """Props for note view."""
+    """Props for :class:`NoteHeader`."""
 
     id: int
     currentId: int
@@ -38,7 +38,7 @@ class NoteHeaderViewProps:
 
 @dataclass
 class NotesViewProps:
-    """Props for all notes view."""
+    """Props for :class:`NotesView`."""
 
     notesDict: OrderedDict
     currentId: int

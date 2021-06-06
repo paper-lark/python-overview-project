@@ -3,8 +3,8 @@ import datetime
 import os
 from collections import OrderedDict
 
-from models.app import NotesDirPath
 from models.notes import Note
+from utils.configuration import ConfigurationUtils
 from utils.dates import getDatetimeFromDay, getDayMonthYear
 
 
@@ -14,10 +14,10 @@ class CalendarModel:
     def __init__(self):
         """Construct CalendarModel."""
         self._notes = OrderedDict()
-        if not os.path.exists(NotesDirPath.getNotesDirPath()):
-            os.makedirs(NotesDirPath.getNotesDirPath())
+        if not os.path.exists(ConfigurationUtils.getNotesDirPath()):
+            os.makedirs(ConfigurationUtils.getNotesDirPath())
 
-        for f in os.listdir(NotesDirPath.getNotesDirPath()):
+        for f in os.listdir(ConfigurationUtils.getNotesDirPath()):
             if f.isnumeric():
                 note = Note.loadNote(f)
                 try:
@@ -33,8 +33,8 @@ class CalendarModel:
         :param text: text of new note
         """
         id = 0
-        for i in range(len(os.listdir(NotesDirPath.getNotesDirPath())) + 1):
-            if str(i) not in os.listdir(NotesDirPath.getNotesDirPath()):
+        for i in range(len(os.listdir(ConfigurationUtils.getNotesDirPath())) + 1):
+            if str(i) not in os.listdir(ConfigurationUtils.getNotesDirPath()):
                 id = i
                 break
 

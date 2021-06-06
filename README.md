@@ -34,11 +34,17 @@
 #### Виджеты
 
 ##### Календарь
-![Calendar design draft](docs/Calendar%20widget.png)
+![Calendar design draft](docs/src/Calendar%20widget.png)
 
 ##### Погода
-![Weather design draft](docs/Weather%20widget.png)
+![Weather design draft](docs/src/Weather%20widget.png)
 
 ##### Заметки
-![Notes design draft](docs/Note%20widget.png)
+![Notes design draft](docs/src/Note%20widget.png)
+
+## Документация
+
+Пользовательская документация расположена [здесь](docs/index.md).
+
+Программная документация создается командой make sphinx-update. После этого она будет находиться в каталоге sphinx/build/html.
 

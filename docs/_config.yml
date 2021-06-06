@@ -1,0 +1,5 @@
+# Jekyll configuration
+theme: jekyll-theme-minimal
+name: Overview
+title: Overview
+description: Пользовательская документация приложения «Overview»

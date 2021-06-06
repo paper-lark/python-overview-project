@@ -25,3 +25,12 @@ l10n-compile:
 
 unit-test:
 	env PYTHONPATH=src poetry run pytest
+
+sphinx-remake:
+	-rm sphinx/src/src.*
+	poetry run sphinx-apidoc --implicit-namespaces -o sphinx/src src
+	poetry run sphinx-build -M html "sphinx" "sphinx/build"
+
+sphinx-update:
+	poetry run sphinx-apidoc --implicit-namespaces -o sphinx/src src
+	poetry run sphinx-build -M html "sphinx" "sphinx/build"
