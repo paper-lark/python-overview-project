@@ -28,9 +28,9 @@ unit-test:
 
 sphinx-remake:
 	-rm sphinx/src/src.*
-	sphinx-apidoc --implicit-namespaces -o sphinx/src src
-	sphinx-build -M html "sphinx" "sphinx/build"
+	poetry run sphinx-apidoc --implicit-namespaces -o sphinx/src src
+	poetry run sphinx-build -M html "sphinx" "sphinx/build"
 
 sphinx-update:
-	sphinx-apidoc --implicit-namespaces -o sphinx/src src
-	sphinx-build -M html "sphinx" "sphinx/build"
+	poetry run sphinx-apidoc --implicit-namespaces -o sphinx/src src
+	poetry run sphinx-build -M html "sphinx" "sphinx/build"
