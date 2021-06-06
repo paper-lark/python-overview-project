@@ -1,0 +1,173 @@
+# Russian (Russia) translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: paperlark@yandex.com\n"
+"POT-Creation-Date: 2021-06-06 18:11+0300\n"
+"PO-Revision-Date: 2021-05-05 20:04+0300\n"
+"Last-Translator: Max Zhuravsky <paperlark@yandex.com>\n"
+"Language: ru_RU\n"
+"Language-Team: ru_RU <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: overview/models/notes.py:22 overview/models/notes.py:169
+msgid "Untitled"
+msgstr "Безымянный"
+
+#: overview/utils/dates.py:40
+msgid "Jan"
+msgstr "Январь"
+
+#: overview/utils/dates.py:41
+msgid "Feb"
+msgstr "Февраль"
+
+#: overview/utils/dates.py:42
+msgid "Mar"
+msgstr "Март"
+
+#: overview/utils/dates.py:43
+msgid "Apr"
+msgstr "Апрель"
+
+#: overview/utils/dates.py:44
+msgid "May"
+msgstr "Май"
+
+#: overview/utils/dates.py:45
+msgid "Jun"
+msgstr "Июнь"
+
+#: overview/utils/dates.py:46
+msgid "Jul"
+msgstr "Июль"
+
+#: overview/utils/dates.py:47
+msgid "Aug"
+msgstr "Август"
+
+#: overview/utils/dates.py:48
+msgid "Sep"
+msgstr "Сентябрь"
+
+#: overview/utils/dates.py:49
+msgid "Oct"
+msgstr "Октябрь"
+
+#: overview/utils/dates.py:50
+msgid "Nov"
+msgstr "Ноябрь"
+
+#: overview/utils/dates.py:51
+msgid "Dec"
+msgstr "Декабрь"
+
+#: overview/utils/formatters.py:21
+msgid "Sunny"
+msgstr "Солнечно"
+
+#: overview/utils/formatters.py:22
+msgid "Rainy"
+msgstr "Дождь"
+
+#: overview/utils/formatters.py:23
+msgid "Cloudy"
+msgstr "Облачно"
+
+#: overview/utils/formatters.py:24
+msgid "Storm"
+msgstr "Гроза"
+
+#: overview/utils/formatters.py:25
+msgid "Drizzle"
+msgstr "Туман"
+
+#: overview/utils/formatters.py:26
+msgid "Snow"
+msgstr "Снег"
+
+#: overview/utils/formatters.py:59
+msgid "mmHg"
+msgstr "мм"
+
+#: overview/utils/formatters.py:65
+msgid "N"
+msgstr "С"
+
+#: overview/utils/formatters.py:67
+msgid "NE"
+msgstr "СВ"
+
+#: overview/utils/formatters.py:69
+msgid "E"
+msgstr "В"
+
+#: overview/utils/formatters.py:71
+msgid "SE"
+msgstr "ЮВ"
+
+#: overview/utils/formatters.py:73
+msgid "S"
+msgstr "Ю"
+
+#: overview/utils/formatters.py:75
+msgid "SW"
+msgstr "ЮЗ"
+
+#: overview/utils/formatters.py:77
+msgid "W"
+msgstr "З"
+
+#: overview/utils/formatters.py:79
+msgid "NW"
+msgstr "СЗ"
+
+#: overview/views/notes.py:150
+msgid "New"
+msgstr "Создать"
+
+#: overview/views/notes.py:152
+msgid "Save"
+msgstr "Сохранить"
+
+#: overview/views/notes.py:154
+msgid "Delete"
+msgstr "Удалить"
+
+#: overview/views/app/app_bar.py:52
+msgid "Notes"
+msgstr "Заметки"
+
+#: overview/views/app/app_bar.py:53
+msgid "Weather"
+msgstr "Погода"
+
+#: overview/views/app/app_bar.py:54
+msgid "Calendar"
+msgstr "Календарь"
+
+#: overview/views/shared/loading.py:27
+msgid "Loading…"
+msgstr "Загружаем данные…"
+
+#: overview/views/weather/current_weather.py:42
+msgid "Humidity"
+msgstr "Влажность"
+
+#: overview/views/weather/current_weather.py:45
+msgid "Pressure"
+msgstr "Давление"
+
+#: overview/views/weather/current_weather.py:70
+msgid "Refresh"
+msgstr "Обновить"
+
