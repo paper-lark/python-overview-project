@@ -24,7 +24,7 @@ l10n-compile:
 	poetry run pybabel compile -d overview/locale
 
 unit-test:
-	poetry run pytest
+	env PYTHONPATH=. poetry run pytest
 
 sphinx-remake:
 	-rm sphinx/src/overview.*
