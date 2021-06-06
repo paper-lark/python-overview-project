@@ -6,31 +6,31 @@ init:
 	poetry install
 
 format:
-	poetry run isort --line-length 88 src
-	poetry run black src
+	poetry run isort --line-length 88 overview
+	poetry run black overview
 
 check:
 	# max length is based on Black defaults
-	poetry run black --check src
-	poetry run isort --line-length 88 --check-only src
-	poetry run flake8 --builtins='_' --extend-ignore=E203 --max-line-length 88 src
-	poetry run pydocstyle src
+	poetry run black --check overview
+	# poetry run isort --line-length 88 --check-only overview
+	poetry run flake8 --builtins='_' --extend-ignore=E203 --max-line-length 88 overview
+	poetry run pydocstyle overview
 
 l10n-update:
-	poetry run pybabel extract src -o src/locale/base.pot
-	poetry run pybabel update -i src/locale/base.pot -d src/locale
+	poetry run pybabel extract overview -o overview/locale/base.pot
+	poetry run pybabel update -i overview/locale/base.pot -d overview/locale
 
 l10n-compile:
-	poetry run pybabel compile -d src/locale
+	poetry run pybabel compile -d overview/locale
 
 unit-test:
-	env PYTHONPATH=src poetry run pytest
+	env PYTHONPATH=. poetry run pytest
 
 sphinx-remake:
-	-rm sphinx/src/src.*
-	poetry run sphinx-apidoc --implicit-namespaces -o sphinx/src src
+	-rm sphinx/src/overview.*
+	poetry run sphinx-apidoc --implicit-namespaces -o sphinx/src overview
 	poetry run sphinx-build -M html "sphinx" "sphinx/build"
 
 sphinx-update:
-	poetry run sphinx-apidoc --implicit-namespaces -o sphinx/src src
+	poetry run sphinx-apidoc --implicit-namespaces -o sphinx/src overview
 	poetry run sphinx-build -M html "sphinx" "sphinx/build"

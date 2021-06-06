@@ -1,9 +1,22 @@
 [tool.poetry]
 name = "overview"
 version = "0.1.0"
-description = "Overview app project"
-authors = ["Max Zhuravsky <paperlark@icloud.com>"]
+description = "Overview Desktop Application"
+readme = "README.md"
+homepage = "https://paper-lark.github.io/python-overview-project/"
+repository = "https://github.com/paper-lark/python-overview-project"
+keywords = ["tkinter", "application"]
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Natural Language :: English",
+    "Natural Language :: Russian",
+    "Topic :: Office/Business"
+]
+authors = ["Max Zhuravsky <paperlark@icloud.com>", "Alexander Dimitrienko <aleksander.dimit@gmail.com>"]
 license = "GPL-3.0"
+
+[tool.poetry.scripts]
+overview = 'overview.app:run'
 
 [tool.poetry.dependencies]
 python = "^3.7"

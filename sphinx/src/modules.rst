@@ -1,7 +1,7 @@
-src
+overview
 ===
 
 .. toctree::
    :maxdepth: 4
 
-   src
+   overview
