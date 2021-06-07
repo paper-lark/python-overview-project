@@ -10,7 +10,7 @@ Welcome to Overview's documentation!
    :maxdepth: 4
    :caption: Contents:
 
-   overview/modules
+   src/modules
 
 
 Indices and tables
